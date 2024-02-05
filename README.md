@@ -18,7 +18,7 @@
 | Ethan Ho           | eho4@sfsu.edu       | eho4            | GL / Frontend|                  
 | Hyok In Kwon       | hkwon4@sfsu.edu     | hkwon4          | Team Lead    |
 | Fadee Ghiragosian  | fghirago@sfsu.edu   | nouseforaname2  |  Backend     |                   
-| member4            |                     |                 |              |
+| Abby Lin           | tlin18@sfsu.edu     | ltyyyy          | Database     |
 | member5            |                     |                 |              |
 | member6            |                     |                 |              |
 
