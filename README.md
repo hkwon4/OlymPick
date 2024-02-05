@@ -13,7 +13,7 @@
 3. Fill out the table below
 
 
-| Student Name | Student Email | GitHub Username | Student Roll |
+| Student Name | Student Email | GitHub Username | Student Role |
 |    :---:     |     :---:     |     :---:       |     :---:    |
 | Ethan Ho     | eho4@sfsu.edu | eho4            | GL / Frontend|                  
 | member2      |               |                 |              |
