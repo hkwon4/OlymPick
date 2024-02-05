@@ -17,7 +17,7 @@
 |    :---:           |     :---:           |     :---:       |     :---:    |
 | Ethan Ho           | eho4@sfsu.edu       | eho4            | GL / Frontend|                  
 | Hyok In Kwon       | hkwon4@sfsu.edu     | hkwon4          | Team Lead    |
-| member3            |                     |                 |              |
+| Fadee Ghiragosian  | fghirago@sfsu.edu   | nouseforaname2  |  Backend     |                   
 | member4            |                     |                 |              |
 | member5            |                     |                 |              |
 | member6            |                     |                 |              |
