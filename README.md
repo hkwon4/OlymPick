@@ -15,7 +15,7 @@
 
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
-| member1      |               |                 |
+| Ethan Ho     | eho4@sfsu.edu | eho4            |
 | member2      |               |                 |
 | member3      |               |                 |
 | member4      |               |                 |
