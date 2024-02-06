@@ -19,7 +19,7 @@
 | Hyok In Kwon       | hkwon4@sfsu.edu     | hkwon4          | Team Lead    |
 | Fadee Ghiragosian  | fghirago@sfsu.edu   | nouseforaname2  |  Backend     |                   
 | Abby Lin           | tlin18@sfsu.edu     | ltyyyy          | Database     |
-| member5            |                     |                 |              |
+| Nichan Lama        | nlama@mail.sfsu.edu | nichanl         | Backend      |
 | member6            |                     |                 |              |
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
