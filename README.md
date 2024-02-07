@@ -15,7 +15,7 @@
 
 | Student Name       | Student Email       | GitHub Username | Student Role |
 |    :---:           |     :---:           |     :---:       |     :---:    |
-| Ethan Ho           | eho4@sfsu.edu       | eho4            | GL / Frontend|                  
+| Ethan Ho           | eho4@sfsu.edu       | eho4            | Github Lead  |                  
 | Hyok In Kwon       | hkwon4@sfsu.edu     | hkwon4          | Team Lead    |
 | Fadee Ghiragosian  | fghirago@sfsu.edu   | nouseforaname2  |  Backend     |                   
 | Abby Lin           | tlin18@sfsu.edu     | ltyyyy          | Database     |
