@@ -8,7 +8,7 @@ app = Flask(__name__)
 people_info = {
     'Name 1': {'name': 'Name 1', 'role': 'Engineer', 'about': ''},
     'Fadee Ghiragosian': {'name': 'Fadee Ghiragosian', 'role': 'Backend Lead', 'about': ' I am pursuing a degree in Computer Science, my family is from Egypt and Armenia, and I love playing video games. '},
-    'Name 3': {'name': 'Name 3', 'role': 'Teacher', 'about': ''},
+    'Ethan Ho': {'name': 'Ethan Ho', 'role': 'Github Lead', 'about': ' Last semester for CS Degree. I build custom keyboards, play video games, and read in my spare time. '},
     'Name 4': {'name': 'Name 4', 'role': 'Doctor', 'about': ''},
     'Name 5': {'name': 'Name 5', 'role': 'Lawyer', 'about': ''},
     'Name 6': {'name': 'Name 6', 'role': 'Writer', 'about': ''},
