@@ -12,7 +12,7 @@ people_info = {
     'Name 4': {'name': 'Name 4', 'role': 'Doctor', 'about': ''},
     'Name 5': {'name': 'Name 5', 'role': 'Lawyer', 'about': ''},
     'Name 6': {'name': 'Name 6', 'role': 'Writer', 'about': ''},
-    'Name 7': {'name': 'Name 7', 'role': 'Entrepreneur', 'about': ''},
+    'Zizo Ezzat': {'name': 'Zizo Ezzat', 'role': 'Frontend', 'about': '4th year CS Major, I love working out and listening to music.'},
 }
 
 @app.route('/')
