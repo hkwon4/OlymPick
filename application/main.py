@@ -42,4 +42,5 @@ def update_about(name):
         return redirect(url_for('about', name=name))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
+
