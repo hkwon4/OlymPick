@@ -23,10 +23,9 @@
 <h1>Team 05</h1>
 </div>
     
-    <ul class="user-list">
-        {% for name in names %}
-            <li><a href="/about/{{ name }}">{{ name }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+<ul class="user-list">
+    {% for name in names %}
+        <li><a href="/about/{{ name.replace(' ', '-') }}">{{ name }}</a></li>
+    {% endfor %}
+</ul>
+
