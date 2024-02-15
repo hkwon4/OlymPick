@@ -52,13 +52,13 @@ Database name (basically the name that contains all your tables)
     
 Instructions on how to use the above information.
 
-    <strong> To access Server: </strong>
+    To access Server:
 
     * (Using powershell) save ssh key in secure location on PC
     * run command ssh -i <path/to/ssh/key.pub> <username>@35.212.156.136
     * (as CEO: use username: csc648.ceo and the ssh public key listed above with that name)
 
-    <strong> To access MySQL Database </strong>
+    To access MySQL Database
 
     * (Through MySQL Workbench) fill in the relevant info mentioned above
     * SSH username will be one of the following listed above
