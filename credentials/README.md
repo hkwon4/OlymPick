@@ -7,16 +7,63 @@
 
 # Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
 
-1. Server URL or IP
-2. SSH username
-3. SSH password or key.
-    <br> If a ssh key is used please upload the key to the credentials folder.
-4. Database URL or IP and port used.
-    <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
-5. Database username
-6. Database password
-7. Database name (basically the name that contains all your tables)
-8. Instructions on how to use the above information.
+Server URL or IP
+   
+   http://35.212.156.136/
+   
+SSH username
+
+    Johnny        jkwon247
+    Ethan         ethanh14
+    Zabi          fxzabiullah
+    Fadee         ghiragosian
+    Nichan        lamanichan01
+    Abby          yu942u
+    Zizo          ziezzat2002
+    CEO           csc648.ceo
+           
+SSH password or key.
+
+    #attached above#
+   
+Database URL or IP and port used.
+
+    *SSH Hostname: 35.212.156.136
+
+    *MYSQL Hostname: 127.0.0.1
+
+    *MySQL Server Port: 3306
+
+Database username
+
+    *admins: jkwon247, yu942u
+
+    *(as CEO): class_CEO
+
+Database password
+
+    *admin: Test!234
+
+    *(as CEO): 100%Project
+
+Database name (basically the name that contains all your tables)
+
+    team5_db
+    
+Instructions on how to use the above information.
+
+    To access Server:
+
+    * (Using powershell) save ssh key in secure location on PC
+    * run command ssh -i <path/to/ssh/key.pub> <username>@35.212.156.136
+    * (as CEO: use username: csc648.ceo and the ssh public key listed above with that name)
+
+    To access MySQL Database
+
+    * (Through MySQL Workbench) fill in the relevant info mentioned above
+    * SSH username will be one of the following listed above
+    * use the SSH PRIVATE keys listed above
+    * use the listed passwords above based on admin or CEO
 
 # Most important things to Remember
 ## These values need to kept update to date throughout the semester. <br>
