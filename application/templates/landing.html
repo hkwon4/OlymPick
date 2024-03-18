@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <title>Welcome</title>
+</head>
+<body>
+    <!-- Banner -->
+    <div class="banner-container">
+        <p>This is for educational purposes only</p>
+    </div>
+
+    <!-- About me page -->
+    <div class = "nav-container">
+        <a href="/About Me" class="about-me-link">About Me</a>
+        <div class="dropdown">
+            <div class="circle"></div>
+            <div class="dropdown-content">
+                <!-- For when we want to edit the profiles -->
+                <a href="#">Option 1</a>
+                <a href="#">Option 2</a>
+                <a href="#">Option 3</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <div class="dropdown">
+                <button class="dropbtn">Filter</button>
+                <div class="dropdown-content">
+                    <a href="#">Sports</a>
+                    <a href="#">University</a>
+                    <a href="#">Placeholder</a>
+                </div>
+            </div>
+            <button type="submit">Search</button>
+        </div>
+    </div>
+    
+</body>
+</html>
