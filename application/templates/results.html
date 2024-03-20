@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <title>Search Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results of '{{ searchTerm }}'</h1>
+    {% if results %}
+        <table>
+            {% if searchFilter == 'University' %}
+                <tr>
+                    <th>Name of Athlete</th>
+                    <th>Gender</th>
+                    <th>Category</th>
+                    <th>Event Name</th>
+                    <th>Number of Medals</th>
+                </tr>
+                {% for item in results %}
+                    <tr>
+                        <td>{{ item.fullName }}</td>
+                        <td>{{ item.gender }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.event_name }}</td>
+                        <td>{{ item.no_medals }}</td>
+                    </tr>
+                {% endfor %}
+            {% elif searchFilter == 'Sports' %}
+                <tr>
+                    <th>Event Name</th>
+                    <th>Category</th>
+                    <th>Season</th>
+                    <th>Year</th>
+                    <th>Gender</th>
+                </tr>
+                {% for item in results %}
+                    <tr>
+                        <td>{{ item.event_name }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.season }}</td>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.gender }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    {% else %}
+        <p>No results found for '{{ searchTerm }}'</p>
+    {% endif %}
+</body>
+</html>
