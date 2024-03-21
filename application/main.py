@@ -85,15 +85,20 @@ def search():
         # SQL query for 'Sports' search by event_name or category
         query = """
         SELECT 
-            Sports.event_name, 
-            Sports.category, 
-            Sports.season,
-            Sports.year, 
-            Sports.gender
+            Universities.uniName AS university_name,
+            COUNT(DISTINCT Sports.event_name) AS number_of_events,
+            COUNT(DISTINCT Athletes.athlete_id) AS number_of_athletes,
+            SUM(Athletes.no_medals) AS number_of_medals
         FROM 
-            Sports
+            Athletes
+        INNER JOIN 
+            Universities ON Athletes.uni_id = Universities.uni_id
+        INNER JOIN 
+            Sports ON Athletes.sport_id = Sports.sport_id
         WHERE 
-            Sports.event_name LIKE %s OR Sports.category LIKE %s;
+            Sports.event_name LIKE %s OR Sports.category LIKE %s
+        GROUP BY 
+            Universities.uniName;
         """
         like_term = f"%{searchTerm}%"
         cursor.execute(query, (like_term, like_term))
@@ -102,14 +107,13 @@ def search():
     result = cursor.fetchall()
     cursor.close()
 
-    # Convert the result to the desired format
+        # Convert the result to the desired format
     results_info = [
         {
-            'event_name': row[0],
-            'category': row[1],
-            'season': row[2],
-            'year': row[3],
-            'gender': row[4]
+            'University Name': row[0],
+            'Number of Events': row[1],
+            'Number of Athletes': row[2],
+            'Number of Medals': row[3]
         } if searchFilter == 'Sports' else {
             'fullName': row[0],
             'gender': row[1],
