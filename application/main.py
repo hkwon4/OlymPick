@@ -1,13 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+import MySQLdb
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
+import MySQLdb.cursors
+import re
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'
 
 # Configure MySQL connection
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'yu942u'
 app.config['MYSQL_PASSWORD'] = 'Test!234'
-app.config['MYSQL_DB'] = 'team5_db'
+app.config['MYSQL_DB'] = 'test_schema'
 
 mysql = MySQL(app)
 
@@ -27,6 +31,69 @@ people_info = {
 @app.route('/')
 def landing():
     return render_template('landing.html')
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    msg = request.args.get('msg')  # Get the 'msg' parameter from the URL
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        # Create variables for easy access
+        email = request.form['email']
+        password = request.form['password']
+        # Check if user exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM newuser WHERE email = %s AND password = %s', (email, password,))
+        # Fetch one record and return result
+        user = cursor.fetchone()
+        cursor.close()
+        # If user exists in users table in our database
+        if user:
+            # Create session data, we can access this data in other routes
+            session['loggedin'] = True
+            session['id'] = user['id']
+            session['email'] = user['email']
+            # Redirect to home page
+            return 'Logged in successfully!'
+        else:
+            # User doesn't exist or email/password incorrect
+            msg = 'Incorrect email/password!'
+    
+    return render_template('login.html', msg=msg)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    msg = None  # Initialize msg
+    if request.method == 'POST' and 'username' in request.form and 'email' in request.form and 'password' in request.form:
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        role = request.form.get('role')
+        
+        # Check if the email already exists in the database
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM newuser WHERE email = %s ', (email,))
+        user = cursor.fetchone()
+
+        if user:
+            # If user with the same email already exists
+            msg = 'An account with this email already exists.'
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            msg = 'Invalid email address!'
+        elif not re.match(r'[A-Za-z0-9]+', username):
+            msg = 'Username must contain only characters and numbers!'
+        elif not email or not password:
+            msg = 'Please fill out the form!'
+        else:
+            # If the email is not already registered, proceed with registration
+            cursor.execute("INSERT INTO newuser (username, email, password, role) VALUES (%s, %s, %s, %s)", (username, email, password, role))
+            mysql.connection.commit()
+            msg = 'User registered successfully!'
+            return redirect(url_for('login', msg=msg))  # Redirect to login page after successful registration
+        
+        cursor.close()
+    
+    return render_template('register.html', msg=msg)
+
 
 @app.route('/About Me')
 def team():
@@ -124,3 +191,4 @@ def search():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
