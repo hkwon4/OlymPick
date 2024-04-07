@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 # Configure MySQL connection
 app.config['MYSQL_HOST'] = 'localhost'
@@ -12,8 +13,6 @@ app.config['MYSQL_DB'] = 'team5_db'
 mysql = MySQL(app)
 
 # Define a dictionary for each person's information
-# Change your name, role in the group, and put some details in about
-# To run, make sure your directory is in application, then type in the terminal "python main.py" (Flask required)
 people_info = {
     'Johnny Kwon': {'name': 'Johnny Kwon', 'role': 'Team Lead', 'about': ''},
     'Fadee Ghiragosian': {'name': 'Fadee Ghiragosian', 'role': 'Backend Lead', 'about': ' I am pursuing a degree in Computer Science, my family is from Egypt and Armenia, and I love playing video games. '},
@@ -107,7 +106,7 @@ def search():
     result = cursor.fetchall()
     cursor.close()
 
-        # Convert the result to the desired format
+    # Convert the result to the desired format
     results_info = [
         {
             'University Name': row[0],
@@ -125,6 +124,22 @@ def search():
     ]
 
     return render_template('results.html', results=results_info, searchTerm=searchTerm, searchFilter=searchFilter)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # Get form data
+        username = request.form['username']
+        password = request.form['password']
+
+        # Dummy authentication
+        if username == 'admin' and password == 'password':
+            session['logged_in'] = True
+            return redirect(url_for('landing'))  # Redirect to landing page after successful login
+        else:
+            return render_template('login.html', error='Invalid username or password')
+
+    return render_template('login.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
