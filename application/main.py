@@ -128,34 +128,43 @@ def search():
         # SQL query for 'University' search
         query = """
         SELECT 
-            Athletes.fullName, 
-            Athletes.gender, 
-            Sports.category,
-            Sports.event_name, 
-            Athletes.no_medals
-        FROM 
-            Athletes
-        INNER JOIN 
-            Universities ON Athletes.uni_id = Universities.uni_id
-        INNER JOIN 
-            Sports ON Athletes.sport_id = Sports.sport_id
-        WHERE 
-            Universities.uniName = %s;
+            a.fullName,
+            a.gender,
+            s.category,
+            a.event_name,
+            a.no_medals
+        FROM
+            Athletes a
+                JOIN
+            AthletesUniversities au ON a.athlete_id = au.athlete_id
+                JOIN
+            Universities u ON au.uni_id = u.university_id
+                JOIN
+            Sports s ON a.sport_id = s.sport_id
+        WHERE
+            u.uni_name = %s;
         """
         cursor.execute(query, (searchTerm,))
     elif searchFilter == 'Sports':
         # SQL query for 'Sports' search by event_name or category
         query = """
         SELECT 
-            Sports.event_name, 
-            Sports.category, 
-            Sports.season,
-            Sports.year, 
-            Sports.gender
-        FROM 
-            Sports
-        WHERE 
-            Sports.event_name LIKE %s OR Sports.category LIKE %s;
+            u.uni_name,
+            COUNT(DISTINCT s.event_name),
+            COUNT(DISTINCT a.athlete_id),
+            SUM(a.no_medals)
+        FROM
+            Universities u
+                JOIN
+            AthletesUniversities au ON u.university_id = au.uni_id
+                JOIN
+            Athletes a ON au.athlete_id = a.athlete_id
+                JOIN
+            Sports s ON a.sport_id = s.sport_id
+        WHERE
+            s.event_name LIKE %s
+                OR s.category LIKE %s
+        GROUP BY u.uni_name;
         """
         like_term = f"%{searchTerm}%"
         cursor.execute(query, (like_term, like_term))
@@ -165,18 +174,17 @@ def search():
     # Convert the result to the desired format
     results_info = [
         {
-            'event_name': row[0],
-            'category': row[1],
-            'season': row[2],
-            'year': row[3],
-            'gender': row[4]
+            'University Name': row[0],
+            'Number of Events': row[1],
+            'Number of Athletes': row[2],
+            'Number of Medals': row[3]
         } if searchFilter == 'Sports' else {
             'fullName': row[0],
             'gender': row[1],
             'category': row[2],
             'event_name': row[3],
             'no_medals': row[4]
-        }
+        }if searchFilter == 'University' else {}
         for row in result
     ]
     return render_template('results.html', results=results_info, searchTerm=searchTerm, searchFilter=searchFilter)
