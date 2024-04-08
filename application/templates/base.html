@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+
+</head>
+
+<body>
+    {% include 'partials/banner.html' %}
+    {% block extra_css %}{% endblock %}
+    {% block content %}{% endblock %}
+    {% block extra_js %}{% endblock %}
+
+</body>

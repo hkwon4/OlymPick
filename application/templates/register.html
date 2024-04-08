@@ -1,62 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <title>Register</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f6e7f0; /* Mild pink background color */
-        }
-        .container {
-            background-color: #fff; /* White background for the form */
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
-        }
-        h1 {
-            text-align: center;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px; /* Increased padding for larger input fields */
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-        input[type="checkbox"] {
-            margin-bottom: 20px;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
-<form action="/register" method="POST">
-    <div class="container">
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="register-form-container">
+    <form action="/register" method="POST" class="register-form">
         <h1>Register</h1>
         <p>Please fill in this form to create an account.</p>
         <hr>
@@ -69,13 +20,14 @@
         <input type="password" placeholder="Enter Password" name="password" id="password" required>
 
         <label for="role"><b>Select Role</b></label>
-        <input type="checkbox" id="admin" name="role" value="admin">
-        <label for="admin">Admin</label>
-        <input type="checkbox" id="faculty" name="role" value="faculty">
-        <label for="faculty">Faculty</label>
+        <select name="role" id="role" required>
+            <option value="">Select a role</option>
+            <option value="admin">Admin</option>
+            <option value="faculty">Faculty</option>
+            <option value="student">Student</option>
+        </select>
         <div class="msg">{{ msg }}</div>
         <button type="submit">Register</button>
     </div>
 </form>
-</body>
-</html>
+{% endblock %}
