@@ -46,21 +46,19 @@
                         <td>{{ item.no_medals }}</td>
                     </tr>
                 {% endfor %}
-            {% elif searchFilter == 'Sports' %}
+                {% elif searchFilter in ['Sports', 'State'] %}
                 <tr>
-                    <th>Event Name</th>
-                    <th>Category</th>
-                    <th>Season</th>
-                    <th>Year</th>
-                    <th>Gender</th>
+                    <th>Name of University</th>
+                    <th>Number of Events</th>
+                    <th>Number of Athletes</th>
+                    <th>Number of Medals</th>
                 </tr>
                 {% for item in results %}
                     <tr>
-                        <td>{{ item.event_name }}</td>
-                        <td>{{ item.category }}</td>
-                        <td>{{ item.season }}</td>
-                        <td>{{ item.year }}</td>
-                        <td>{{ item.gender }}</td>
+                        <td>{{ item['University Name'] }}</td>
+                        <td>{{ item['Number of Events'] }}</td>
+                        <td>{{ item['Number of Athletes'] }}</td>
+                        <td>{{ item['Number of Medals'] }}</td>
                     </tr>
                 {% endfor %}
             {% endif %}
