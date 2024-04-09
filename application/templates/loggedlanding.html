@@ -15,11 +15,11 @@
     </div>
 
     
-    <!-- About me page -->
+
 <div class="nav-container">
    
-       <p>Hello! {{session.get(' username')}}</p>
-       <a href="{{ url_for('upload') }}" class="upload-link">Upload Files</a>
+       <p>Hello! {{session.get('firstName')}}</p>
+       <a href="{{ url_for('upload') }}" class="upload-link"> Upload Files</a>
         <div class="dropdown">
             <div class="circle"></div>
             <div class="dropdown-content">

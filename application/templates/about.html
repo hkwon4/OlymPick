@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+{% extends "base.html" %}
+{% block title %}About {{ person.name }}{% endblock %}
 
-    <title>About {{ person.name }}</title>
-
-</head>
-<body>
+{% block content %}
     <h1>About {{ person.name }}</h1>
     <p>This is the "About Me" page for {{ person.name }}.</p>
     
@@ -19,12 +12,11 @@
     <!-- Form for the person to input their information -->
     <form action="/about/{{ person.name }}/update" method="post">
         <label for="about">Update About Me:</label><br>
-        <textarea id="about" name="about" rows="4" cols="50"></textarea><br>
+        <textarea id="about" name="about" rows="4" cols="50">{{ person.about }}</textarea><br>
         <input type="submit" value="Submit">
     </form>
 
     <a href="/">Back to Names</a>
-</body>
-</html>
+{% endblock %}
 
 

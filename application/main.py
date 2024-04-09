@@ -1,9 +1,11 @@
 import MySQLdb
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
+from werkzeug.utils import secure_filename
 import MySQLdb.cursors
 import re
 import bcrypt
+
 
 app = Flask(__name__)
 
@@ -17,14 +19,48 @@ app.config['MYSQL_DB'] = 'test_schema'
 
 mysql = MySQL(app)
 
+
+# Define a dictionary for each person's information
+# Change your name, role in the group, and put some details in about
+# To run, make sure your directory is in application, then type in the terminal "python main.py" (Flask required)
+people_info = {
+    'Johnny Kwon': {'name': 'Johnny Kwon', 'role': 'Team Lead', 'about': ''},
+    'Fadee Ghiragosian': {'name': 'Fadee Ghiragosian', 'role': 'Backend Lead', 'about': ' I am pursuing a degree in Computer Science, my family is from Egypt and Armenia, and I love playing video games. '},
+    'Ethan Ho': {'name': 'Ethan Ho', 'role': 'Github Lead', 'about': ' Last semester for CS Degree. I build custom keyboards, play video games, and read in my spare time. '},
+    'Abby Lin': {'name': 'Abby Lin', 'role': 'Database', 'about': ' Last Semester CS Major, an international transfer student from Taiwan. I love music, swimming, and playing games.'},
+    'Nichan Lama': {'name': 'Nichan lama', 'role': 'Backend', 'about': 'I am a CS major. I love trying out new food and working out.'},
+    'Zabiullah Niemati': {'name': 'Zabiullah Niemati', 'role': 'Frontend', 'about': ''},
+    'Zizo Ezzat': {'name': 'Zizo Ezzat', 'role': 'Frontend', 'about': '4th year CS Major, I love working out and listening to music.'},
+}
+
 @app.route('/')
 def landing():
     return render_template('landing.html')
 
-@app.route('/upload')
-def upload():
-    return render_template('upload.html')
+@app.route('/profilepage')
+def profile():
+    return render_template('userpage.html')
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        if not file:
+            return "No file uploaded", 400
+        
+        filename = secure_filename(file.filename)
+        mimetype = file.mimetype
+        img = file.read()
+        
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO img (img, mimetype, name) VALUES (%s, %s, %s)", (img, mimetype, filename))
+        mysql.connection.commit()
+        cursor.close()
+        
+        return "Image uploaded successfully!"
+    
+    
+    return render_template('upload.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -46,7 +82,8 @@ def login():
             session['loggedin'] = True
             session['id'] = user['id']
             session['email'] = user['email']
-            session['username'] = user['username']
+            session['firstname'] = user['firstName']
+            session['lastname'] = user['lastName']
             # Redirect to logged in landing page
             return redirect(url_for('loggedlanding'))
         else:
@@ -65,10 +102,12 @@ def loggedlanding():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     msg = None  # Initialize msg
-    if request.method == 'POST' and 'username' in request.form and 'email' in request.form and 'password' in request.form:
-        username = request.form.get('username')
+    if request.method == 'POST' and 'firstname' in request.form and 'lastname' in request.form and 'email' in request.form and 'password' in request.form:
+        firstname = request.form.get('firstname') 
+        lastname = request.form.get('lastname')
         email = request.form.get('email')
         password = request.form.get('password')
+        role = request.form.get('role')
 
         
         # Check if the email already exists in the database
@@ -79,9 +118,11 @@ def register():
         if user:
             # If user with the same email already exists
             msg = 'An account with this email already exists.'
-        elif not username or not email or not password:
+        elif not firstname or not lastname or not email or not password:
             msg = 'Please fill out all fields.'
-        elif not re.match(r'^[A-Za-z0-9]+$', username):
+        elif not re.match(r'^[A-Za-z0-9]+$', firstname):
+            msg = 'Username must contain only letters and numbers.'
+        elif not re.match(r'^[A-Za-z0-9]+$', lastname):
             msg = 'Username must contain only letters and numbers.'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address.'
@@ -90,7 +131,7 @@ def register():
 
             # If the email is not already registered, proceed with registration
            # If the email is not already registered, proceed with registration
-            cursor.execute("INSERT INTO newuser (username, email, password) VALUES (%s, %s, %s)", (username, email, hashed_password))
+            cursor.execute("INSERT INTO newuser ( email, password, firstName, lastName, role) VALUES (%s, %s, %s, %s,%s)", ( email, hashed_password, firstname, lastname, role))
             mysql.connection.commit()
             msg = 'User registered successfully!'
             return redirect(url_for('login', msg=msg))  # Redirect to login page after successful registration
@@ -100,10 +141,14 @@ def register():
     return render_template('register.html', msg=msg)
 
 
+
+
+
 @app.route('/About Me')
 def team():
     names = list(people_info.keys())
     return render_template('index.html', names=names)
+
 @app.route('/about/<name>')
 def about(name):
     person = people_info.get(name)

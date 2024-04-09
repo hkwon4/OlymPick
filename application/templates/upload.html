@@ -49,9 +49,9 @@
     </style>
 </head>
 <body>
-    
     <div class="container">
-        <form action ="/upload" method="post" enctype="multipart/form-data">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <p>Hello! {{session.get(' username')}}</p>
             <label for="file">Choose a file:</label>
             <input id="file" name="file" type="file" />
             <button type="submit">Upload</button>
