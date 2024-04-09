@@ -192,3 +192,4 @@ def search():
         for row in result
     ]
     return render_template('results.html', results=results_info, searchTerm=searchTerm, searchFilter=searchFilter)
+

@@ -11,6 +11,9 @@ body {
     color: #333; /* Default text color */
 }
 
+
+
+
 .search-container {
     text-align: center; 
     margin-top: 250px; 
@@ -89,7 +92,7 @@ body {
 }
 
 .banner-container {
-    background-color: #c7c7c7;
+    background-color: #ffffff;
     color: rgb(0, 0, 0); 
     padding: .1px; 
     text-align: center; 

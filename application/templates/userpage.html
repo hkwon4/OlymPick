@@ -1,91 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Profile</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profiles.css') }}">
-</head>
-<body>
-    <div class="profile-container">
-        <h1 class="profile-title">Manage Profile</h1>
-        <div class="profile-picture-container">
-            <div class="profile-picture"></div>
-            <label for="profile-picture" class="upload-button">&#9998;</label>
-            <input type="file" accept="image/*" id="profile-picture" style="display: none;">
-        </div>
+{% extends "base.html" %}
+{% block title %}Manage Profile{% endblock %}
 
-        <div class="profile-details">
-            <div class="input-container">
-                <!-- First Name -->
-                <div class="editable-field-container">
-                    <span class="field-label">First Name:</span>
-                    <input type="text" class="editable-field" value="John" disabled>
-                </div>
-                <!-- Last Name -->
-                <div class="editable-field-container">
-                    <span class="field-label">Last Name:</span>
-                    <input type="text" class="editable-field" value="Doe" disabled>
-                </div>
-                <!-- Email -->
-                <div class="editable-field-container">
-                    <span class="field-label">Email:</span>
-                    <input type="text" class="editable-field" value="john@example.com" disabled>
-                </div>
-                <!-- Phone -->
-                <div class="editable-field-container">
-                    <span class="field-label">Phone:</span>
-                    <input type="text" class="editable-field" value="123-456-7890" disabled>
-                </div>
-                <!-- Address -->
-                <div class="editable-field-container">
-                    <span class="field-label">Address:</span>
-                    <input type="text" class="editable-field" value="123 Street, City, State, ZIP" disabled>
-                </div>
-                <!-- Edit Button -->
-                <button class="edit-button">Edit Profile</button>
-            </div>
-        </div>
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profiles.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h1 class="profile-title">Manage Profile</h1>
+    <div class="profile-picture-container">
+        <div class="profile-picture"></div>
+        <label for="profile-picture" class="upload-button">&#9998;</label>
+        <input type="file" accept="image/*" id="profile-picture" style="display: none;">
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const editButton = document.querySelector('.edit-button');
-            const inputs = document.querySelectorAll('.editable-field');
+    <div class="profile-details">
+        <!-- Profile details and edit button -->
+    </div>
+</div>
+{% endblock %}
 
-            editButton.addEventListener('click', function() {
-                const buttonText = editButton.textContent.trim();
-                if (buttonText === 'Edit Profile') {
-                    editButton.textContent = 'Save Profile';
-                } else {
-                    editButton.textContent = 'Edit Profile';
-                }
-                inputs.forEach(input => {
-                    input.disabled = !input.disabled; 
-                    input.style.backgroundColor = input.disabled ? '#f2f2f2' : '#fff'; 
-                    input.style.pointerEvents = input.disabled ? 'none' : 'auto';
-                });
-            });
+{% block extra_js %}
 
-            const uploadButton = document.querySelector('.upload-button');
-            const profilePicture = document.querySelector('.profile-picture');
-            const fileInput = document.getElementById('profile-picture');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButton = document.querySelector('.edit-button');
+        const inputs = document.querySelectorAll('.editable-field');
 
-            uploadButton.addEventListener('click', function() {
-                fileInput.click(); 
-            });
-
-            fileInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    profilePicture.style.backgroundImage = `url(${e.target.result})`;
-                };
-
-                reader.readAsDataURL(file);
+        editButton.addEventListener('click', function() {
+            const buttonText = editButton.textContent.trim();
+            if (buttonText === 'Edit Profile') {
+                editButton.textContent = 'Save Profile';
+            } else {
+                editButton.textContent = 'Edit Profile';
+            }
+            inputs.forEach(input => {
+                input.disabled = !input.disabled; 
+                input.style.backgroundColor = input.disabled ? '#f2f2f2' : '#fff'; 
+                input.style.pointerEvents = input.disabled ? 'none' : 'auto';
             });
         });
-    </script>
-</body>
-</html>
+
+        const uploadButton = document.querySelector('.upload-button');
+        const profilePicture = document.querySelector('.profile-picture');
+        const fileInput = document.getElementById('profile-picture');
+
+        uploadButton.addEventListener('click', function() {
+            fileInput.click(); 
+        });
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                profilePicture.style.backgroundImage = `url(${e.target.result})`;
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
+
+{% endblock %}
+
