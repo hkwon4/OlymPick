@@ -1,67 +1,70 @@
-{% extends "base.html" %}
-{% block title %}Search Results{% endblock %}
-
-{% block extra_css %}
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-    }
-    th, td {
-        border: 1px solid #ccc;
-        text-align: left;
-        padding: 8px;
-    }
-    th {
-        background-color: #333;
-        color: white;
-    }
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-</style>
-{% endblock %}
-
-{% block content %}
-<h1>Search Results for '{{ searchTerm }}'</h1>
-{% if results %}
-<table>
-    {% if searchFilter == 'University' %}
-    <tr>
-        <th>Name of Athlete</th>
-        <th>Gender</th>
-        <th>Category</th>
-        <th>Event Name</th>
-        <th>Number of Medals</th>
-    </tr>
-    {% for item in results %}
-    <tr>
-        <td>{{ item.fullName }}</td>
-        <td>{{ item.gender }}</td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.event_name }}</td>
-        <td>{{ item.no_medals }}</td>
-    </tr>
-    {% endfor %}
-    {% elif searchFilter == 'Sports' %}
-    <tr>
-        <th>Name of University</th>
-        <th>Number of Events</th>
-        <th>Number of Athletes</th>
-        <th>Number of Medals</th>
-    </tr>
-    {% for item in results %}
-    <tr>
-        <td>{{ item['University Name'] }}</td>
-        <td>{{ item['Number of Events'] }}</td>
-        <td>{{ item['Number of Athletes'] }}</td>
-        <td>{{ item['Number of Medals'] }}</td>
-    </tr>
-    {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <title>Search Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results of '{{ searchTerm }}'</h1>
+    {% if results %}
+        <table>
+            {% if searchFilter == 'University' %}
+                <tr>
+                    <th>Name of Athlete</th>
+                    <th>Gender</th>
+                    <th>Category</th>
+                    <th>Event Name</th>
+                    <th>Number of Medals</th>
+                </tr>
+                {% for item in results %}
+                    <tr>
+                        <td>{{ item.fullName }}</td>
+                        <td>{{ item.gender }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.event_name }}</td>
+                        <td>{{ item.no_medals }}</td>
+                    </tr>
+                {% endfor %}
+                {% elif searchFilter in ['Sports', 'State'] %}
+                <tr>
+                    <th>Name of University</th>
+                    <th>Number of Events</th>
+                    <th>Number of Athletes</th>
+                    <th>Number of Medals</th>
+                </tr>
+                {% for item in results %}
+                    <tr>
+                        <td>{{ item['University Name'] }}</td>
+                        <td>{{ item['Number of Events'] }}</td>
+                        <td>{{ item['Number of Athletes'] }}</td>
+                        <td>{{ item['Number of Medals'] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    {% else %}
+        <p>No results found for '{{ searchTerm }}'</p>
     {% endif %}
-</table>
-{% else %}
-<p>No results found for '{{ searchTerm }}'</p>
-{% endif %}
-{% endblock %}
+</body>
+</html>

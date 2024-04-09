@@ -15,7 +15,7 @@ app.secret_key = 'your_secret_key_here'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'yu942u'
 app.config['MYSQL_PASSWORD'] = 'Test!234'
-app.config['MYSQL_DB'] = 'test_schema'
+app.config['MYSQL_DB'] = 'team5_db'
 
 mysql = MySQL(app)
 
@@ -53,7 +53,7 @@ def upload():
         img = file.read()
         
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO img (img, mimetype, name) VALUES (%s, %s, %s)", (img, mimetype, filename))
+        cursor.execute("INSERT INTO file (img, mimetype, name) VALUES (%s, %s, %s)", (img, mimetype, filename))
         mysql.connection.commit()
         cursor.close()
         
@@ -71,7 +71,7 @@ def login():
         password = request.form['password']
         # Check if user exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM newuser WHERE email = %s', (email,))
+        cursor.execute('SELECT * FROM Users WHERE email = %s', (email,))
         # Fetch one record and return result
         user = cursor.fetchone()
         cursor.close()
@@ -80,7 +80,6 @@ def login():
         if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             # Create session data, we can access this data in other routes
             session['loggedin'] = True
-            session['id'] = user['id']
             session['email'] = user['email']
             session['firstname'] = user['firstName']
             session['lastname'] = user['lastName']
@@ -94,6 +93,7 @@ def login():
 
 
 
+
 @app.route('/loggedlanding' )
 def loggedlanding():
     return render_template('loggedlanding.html')
@@ -102,42 +102,38 @@ def loggedlanding():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     msg = None  # Initialize msg
-    if request.method == 'POST' and 'firstname' in request.form and 'lastname' in request.form and 'email' in request.form and 'password' in request.form:
-        firstname = request.form.get('firstname') 
-        lastname = request.form.get('lastname')
+    if request.method == 'POST' and 'firstName' in request.form and 'lastName' in request.form and 'email' in request.form and 'password' in request.form:
+        firstName = request.form.get('firstName')
+        lastName = request.form.get('lastName')
         email = request.form.get('email')
         password = request.form.get('password')
-        role = request.form.get('role')
 
-        
         # Check if the email already exists in the database
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM newuser WHERE email = %s ', (email,))
+        cursor.execute('SELECT * FROM Users WHERE email = %s ', (email,))
         user = cursor.fetchone()
 
         if user:
             # If user with the same email already exists
             msg = 'An account with this email already exists.'
-        elif not firstname or not lastname or not email or not password:
+        elif not firstName or not lastName or not email or not password:
             msg = 'Please fill out all fields.'
-        elif not re.match(r'^[A-Za-z0-9]+$', firstname):
+        elif not re.match(r'^[A-Za-z0-9]+$', firstName):
             msg = 'Username must contain only letters and numbers.'
-        elif not re.match(r'^[A-Za-z0-9]+$', lastname):
+        elif not re.match(r'^[A-Za-z0-9]+$', lastName):
             msg = 'Username must contain only letters and numbers.'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address.'
         else:
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
             # If the email is not already registered, proceed with registration
-           # If the email is not already registered, proceed with registration
-            cursor.execute("INSERT INTO newuser ( email, password, firstName, lastName, role) VALUES (%s, %s, %s, %s,%s)", ( email, hashed_password, firstname, lastname, role))
+            cursor.execute("INSERT INTO Users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (email, hashed_password, firstName, lastName))
             mysql.connection.commit()
             msg = 'User registered successfully!'
             return redirect(url_for('login', msg=msg))  # Redirect to login page after successful registration
-     
+
         cursor.close()
-    
+
     return render_template('register.html', msg=msg)
 
 
