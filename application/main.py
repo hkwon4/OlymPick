@@ -32,6 +32,10 @@ people_info = {
 def landing():
     return render_template('landing.html')
 
+@app.route('/Profile Page')
+def profile():
+    return render_template('userpage.html')
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     msg = request.args.get('msg')  # Get the 'msg' parameter from the URL

@@ -1,4 +1,9 @@
 body {
+    background-image: url(backgroundimg.jpg);
+    background-repeat: no-repeat; 
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
     background-color: #FFF8E3; 
     margin: 0;
     padding: 0;
