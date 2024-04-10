@@ -44,7 +44,7 @@
         <td>{{ item.no_medals }}</td>
     </tr>
     {% endfor %}
-    {% elif searchFilter == 'Sports' %}
+    {% elif searchFilter == 'Sports', 'State' %}
     <tr>
         <th>Name of University</th>
         <th>Number of Events</th>
@@ -59,6 +59,7 @@
         <td>{{ item['Number of Medals'] }}</td>
     </tr>
     {% endfor %}
+
     {% endif %}
 </table>
 {% else %}
