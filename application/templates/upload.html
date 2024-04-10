@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            background-color: #ffc0cb; /* Pink background */
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 100px auto;
+            width: 50%;
+            padding: 20px;
+            background-color: #ffffff; /* White background for form container */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50; /* Green button */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <p>Hello! {{session.get(' username')}}</p>
+            <label for="file">Choose a file:</label>
+            <input id="file" name="file" type="file" />
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</body>
+</html>
