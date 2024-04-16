@@ -31,7 +31,7 @@ mysql = MySQL(app)
 # Change your name, role in the group, and put some details in about
 # To run, make sure your directory is in application, then type in the terminal "python main.py" (Flask required)
 people_info = {
-    'Johnny Kwon': {'name': 'Johnny Kwon', 'role': 'Team Lead', 'about': ''},
+    'Johnny Kwon': {'name': 'Johnny Kwon', 'role': 'Team Lead', 'about': 'Hello, I am the Team Lead of this project.'},
     'Fadee Ghiragosian': {'name': 'Fadee Ghiragosian', 'role': 'Backend Lead', 'about': ' I am pursuing a degree in Computer Science, my family is from Egypt and Armenia, and I love playing video games. '},
     'Ethan Ho': {'name': 'Ethan Ho', 'role': 'Github Lead', 'about': ' Last semester for CS Degree. I build custom keyboards, play video games, and read in my spare time. '},
     'Abby Lin': {'name': 'Abby Lin', 'role': 'Database', 'about': ' Last Semester CS Major, an international transfer student from Taiwan. I love music, swimming, and playing games.'},
