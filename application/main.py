@@ -5,13 +5,13 @@ from werkzeug.utils import secure_filename
 import MySQLdb.cursors
 import re
 import bcrypt
-from .login import *
-from .profilepage import *
-from .landing import *
-from .loggedlanding import *
-from .register import *
-from .search import *
-from .upload import *
+from login import *
+from profilepage import *
+from landing import *
+from loggedlanding import *
+from register import *
+from search import *
+from upload import *
 
 
 app = Flask(__name__)
