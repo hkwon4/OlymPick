@@ -7,7 +7,6 @@ import re
 import bcrypt
 from login import *
 from profilepage import *
-from landing import *
 from loggedlanding import *
 from register import *
 from search import *
@@ -41,7 +40,9 @@ people_info = {
 }
 
 
-
+@app.route('/')
+def landing():
+    return render_template('landing.html')
 
 @app.route('/About Me')
 def team():
