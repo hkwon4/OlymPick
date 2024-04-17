@@ -1,19 +1,27 @@
-import MySQLdb
+# import MySQLdb
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_mysqldb import MySQL
-from werkzeug.utils import secure_filename
-import MySQLdb.cursors
-import re
-import bcrypt
-from login import *
-from profilepage import *
-from loggedlanding import *
-from register import *
-from search import *
-from upload import *
+# from flask_mysqldb import MySQL
+# from werkzeug.utils import secure_filename
+# import MySQLdb.cursors
+# import re
+# import bcrypt
+
+# from login import *
+# from profilepage import *
+# from loggedlanding import *
+# from register import *
+# from search import *
+# from upload import *
 
 
 app = Flask(__name__)
+
+import login
+import profilepage
+import loggedlanding
+import register
+import search
+import upload
 
 app.secret_key = 'your_secret_key_here'
 
