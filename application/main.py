@@ -77,8 +77,12 @@ def update_about(name):
     else:
         return redirect(url_for('about', name=name))
     
-
-
+app.add_url_rule('/login', view_func=login.login)
+app.add_url_rule('/loggedlanding', view_func=loggedlanding.loggedlanding)
+app.add_url_rule('/profilepage', view_func=profilepage.profile)
+app.add_url_rule('/register', view_func=register.register)
+app.add_url_rule('/search', view_func=search.search)
+app.add_url_rule('/upload', view_func=upload.upload)
 
 if __name__ == '__main__':
     app.run(debug=True)
