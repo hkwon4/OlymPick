@@ -26,12 +26,12 @@ import upload
 app.secret_key = 'your_secret_key_here'
 
 # Configure MySQL connection
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'yu942u'
-app.config['MYSQL_PASSWORD'] = 'Test!234'
-app.config['MYSQL_DB'] = 'team5_db'
-
-mysql = MySQL(app)
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'yu942u'
+# app.config['MYSQL_PASSWORD'] = 'Test!234'
+# app.config['MYSQL_DB'] = 'team5_db'
+#
+# mysql = MySQL(app)
 
 
 # Define a dictionary for each person's information
