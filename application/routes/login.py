@@ -1,24 +1,11 @@
-import MySQLdb
-from flask import Flask, render_template, request, redirect, url_for, session
-from flask_mysqldb import MySQL
-from werkzeug.utils import secure_filename
+from flask import Blueprint, request, render_template, redirect, url_for, session
 import MySQLdb.cursors
-import re
 import bcrypt
+from extensions import mysql
 
-app = Flask(__name__)
+login_bp = Blueprint('login', __name__)
 
-app.secret_key = 'your_secret_key_here'
-
-# Configure MySQL connection
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'yu942u'
-app.config['MYSQL_PASSWORD'] = 'Test!234'
-app.config['MYSQL_DB'] = 'team5_db'
-
-mysql = MySQL(app)
-
-@app.route('/login', methods=['GET','POST'])
+@login_bp.route('/login', methods=['GET', 'POST'])
 def login():
     msg = None  # Initialize msg
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
@@ -40,9 +27,13 @@ def login():
             session['firstname'] = user['firstName']
             session['lastname'] = user['lastName']
             # Redirect to logged in landing page
-            return redirect(url_for('loggedlanding'))
+            return redirect(url_for('login.loggedlanding'))
         else:
             # User doesn't exist or password incorrect
             msg = 'Incorrect email/password!'
 
     return render_template('login.html', msg=msg)
+
+@login_bp.route('/loggedlanding')
+def loggedlanding():
+    return render_template('loggedlanding.html')
