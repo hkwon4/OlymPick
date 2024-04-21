@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     <title>Welcome</title>
+    <style>
+        .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <!-- Banner -->
@@ -14,14 +33,11 @@
         <p> Section 2 Team 05</p>
     </div>
 
-    
-
-<div class="nav-container">
-   
-       <p>Hello! {{session.get('firstname')}}</p>
-       <a href="{{ url_for('upload.upload') }}" class="upload-link"> Upload Files</a>
+    <div class="nav-container">
+        <p>Hello! {{session.get('firstname')}}</p>
+        <a href="{{ url_for('upload.upload') }}" class="upload-link">Upload Files</a>
         <div class="dropdown">
-            <div class="circle">Profile</div>
+            <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
             <div class="dropdown-content">
                 <!-- For when we want to edit the profiles -->
                 <a href="{{ url_for('profile.profile', user_id=user_id, full_name=full_name) }}">My Profile</a>
@@ -29,14 +45,13 @@
                 <a href="{{ url_for('landing.landing') }}">Log out</a>
             </div>
         </div>
-</div>
+    </div>
 
-<!-- Logo -->
-<div class="logo-container">
-    <a href="/" class="olympick-logo">Olympick</a>
-</div>
+    <!-- Logo -->
+    <div class="logo-container">
+        <a href="/" class="olympick-logo">Olympick</a>
+    </div>
 
-    
     <!-- Search bar -->
     <div class="search-container">
         <form action="/search" method="post" class="search-bar">
@@ -50,22 +65,35 @@
         </form>
     </div>
 
-    <!-- JavaScript for filter options -->
+    <!-- JavaScript for filter options and dropdown menu -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var filterOptions = document.querySelectorAll('.filter-option');
             var searchInput = document.getElementById('search-input');
             var filterButton = document.querySelector('.dropbtn'); // Target the filter button
-
             filterOptions.forEach(function(option) {
                 option.addEventListener('click', function(event) {
-                    event.preventDefault(); 
+                    event.preventDefault();
                     var placeholderText = "Searching " + this.getAttribute('data-search-placeholder') + "...";
                     var buttonText = this.getAttribute('data-search-placeholder'); // Prepare new button text
                     searchInput.setAttribute('placeholder', placeholderText);
                     filterButton.textContent = buttonText; // Update the button text
                 });
             });
+        });
+
+        function toggleDropdown() {
+            var dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            var dropdown = document.querySelector('.dropdown');
+            var targetElement = event.target;
+
+            if (!targetElement.closest('.dropdown')) {
+                dropdown.classList.remove('active');
+            }
         });
     </script>
 </body>

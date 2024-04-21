@@ -1,66 +1,145 @@
 {% extends "base.html" %}
+
 {% block title %}Manage Profile{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profiles.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<style>
+    .cropper-container {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    .cropper-view-box,
+    .cropper-face {
+        border-radius: 50%;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="profile-container">
-    <h1 class="profile-title">Manage Profile</h1>
-    <div class="profile-picture-container">
-        <div class="profile-picture"></div>
-        <label for="profile-picture" class="upload-button">&#9998;</label>
-        <input type="file" accept="image/*" id="profile-picture" style="display: none;">
+    <div class="profile-header">
+        <h1 class="user-full-name">{{ full_name }}</h1>
+<a href="{{ url_for('login.loggedlanding', user_id=user_id, full_name=full_name) }}" class="back-to-search">Back to Search</a>
     </div>
 
+    <form id="profileForm" action="{{ url_for('profile.uploadprofile', user_id=user_id, full_name=full_name) }}" method="POST" enctype="multipart/form-data">
+        <div class="profile-picture-container">
+            <div class="profile-picture" id="profile-picture-preview" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')"></div>
+            <label for="profile-picture" class="upload-button">Upload/Change Profile Picture</label>
+            <input type="file" name="files[]" accept="image/*" id="profile-picture" style="display: none;">
+        </div>
+
+        <div class="cropper-container">
+            <img id="image" src="" alt="Image to crop" style="display: none;">
+        </div>
+
+        <button type="submit" class="save-button" style="display: none;">Confirm Changes</button>
+    </form>
+
     <div class="profile-details">
-        <!-- Profile details and edit button -->
+        <div class="about-me">
+            <h2>User About Me Information</h2>
+            <div>SOME INFO HERE</div>
+        </div>
+
+        <div class="sports-interests">
+            <h2>User's Sports Interests</h2>
+            <div>SPORTS INTEREST HERE</div>
+        </div>
+
+        <div class="links">
+            <h2>User's list of links to videos or resume</h2>
+            <div>LINKS HERE</div>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const editButton = document.querySelector('.edit-button');
-        const inputs = document.querySelectorAll('.editable-field');
-
-        editButton.addEventListener('click', function() {
-            const buttonText = editButton.textContent.trim();
-            if (buttonText === 'Edit Profile') {
-                editButton.textContent = 'Save Profile';
-            } else {
-                editButton.textContent = 'Edit Profile';
-            }
-            inputs.forEach(input => {
-                input.disabled = !input.disabled; 
-                input.style.backgroundColor = input.disabled ? '#f2f2f2' : '#fff'; 
-                input.style.pointerEvents = input.disabled ? 'none' : 'auto';
-            });
-        });
-
-        const uploadButton = document.querySelector('.upload-button');
-        const profilePicture = document.querySelector('.profile-picture');
+        const profilePicturePreview = document.getElementById('profile-picture-preview');
         const fileInput = document.getElementById('profile-picture');
-
-        uploadButton.addEventListener('click', function() {
-            fileInput.click(); 
-        });
+        const image = document.getElementById('image');
+        const saveButton = document.querySelector('.save-button');
+        let cropper;
 
         fileInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                profilePicture.style.backgroundImage = `url(${e.target.result})`;
+                image.src = e.target.result;
+                image.style.display = 'block';
+
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                cropper = new Cropper(image, {
+                    aspectRatio: 1, // Set the aspect ratio to 1:1 for a square crop
+                    viewMode: 1, // Restrict the crop box to within the canvas
+                    minCropBoxWidth: 200, // Set the minimum crop box width
+                    minCropBoxHeight: 200, // Set the minimum crop box height
+                    dragMode: 'move', // Allow the user to drag the image within the crop box
+                    zoomable: false, // Disable zooming
+                    scalable: false, // Disable scaling
+                    cropBoxResizable: false, // Disable resizing of the crop box
+                    crop: function(event) {
+                        const croppedImageData = cropper.getCroppedCanvas().toDataURL();
+                        profilePicturePreview.style.backgroundImage = `url(${croppedImageData})`;
+                    }
+                });
+
+                saveButton.style.display = 'block';
             };
 
             reader.readAsDataURL(file);
         });
+
+        const profileForm = document.getElementById('profileForm');
+        profileForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            if (cropper) {
+                const croppedImageData = cropper.getCroppedCanvas().toDataURL();
+                const blob = dataURItoBlob(croppedImageData);
+                const formData = new FormData();
+                formData.append('files[]', blob, 'cropped_image.jpg'); // Set a generic filename
+
+                fetch(profileForm.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = response.url;
+                    } else {
+                        console.error('Error updating profile picture');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating profile picture', error);
+                });
+            } else {
+                profileForm.submit();
+            }
+        });
+
+        // Helper function to convert Data URL to Blob object
+        function dataURItoBlob(dataURI) {
+            const byteString = atob(dataURI.split(',')[1]);
+            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], { type: mimeString });
+        }
     });
 </script>
-
 {% endblock %}
-

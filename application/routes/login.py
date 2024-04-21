@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, sessio
 import MySQLdb.cursors
 import bcrypt
 from extensions import mysql
+import base64
 
 login_bp = Blueprint('login', __name__)
 
@@ -12,9 +13,11 @@ def login():
         # Create variables for easy access
         email = request.form['email']
         password = request.form['password']
+
         # Check if user exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM Users WHERE email = %s', (email,))
+
         # Fetch one record and return result
         user = cursor.fetchone()
         cursor.close()
@@ -26,8 +29,10 @@ def login():
             session['email'] = user['email']
             session['firstname'] = user['firstName']
             session['lastname'] = user['lastName']
+
             # Redirect to logged in landing page
             return redirect(url_for('login.loggedlanding', user_id=user['user_id'], full_name=user['fullName']))
+
         else:
             # User doesn't exist or password incorrect
             msg = 'Incorrect email/password!'
@@ -38,4 +43,17 @@ def login():
 def loggedlanding():
     user_id = request.args.get('user_id')
     full_name = request.args.get('full_name')
-    return render_template('loggedlanding.html', user_id=user_id, full_name=full_name)
+
+    # Retrieve the latest uploaded profile picture for the user from the database
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT file_data FROM UserProfileImg WHERE user_id = %s ORDER BY uploaded_at DESC LIMIT 1", [user_id])
+    result = cursor.fetchone()
+    cursor.close()
+
+    if result:
+        file_data = result[0]
+        profile_picture = base64.b64encode(file_data).decode('utf-8')
+    else:
+        profile_picture = None
+
+    return render_template('loggedlanding.html', user_id=user_id, full_name=full_name, profile_picture=profile_picture)
