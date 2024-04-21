@@ -1,32 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+{% extends "base.html" %}
+{% block title %}SFSU{% endblock %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<style>
+    #title {
+        white-space: pre-line;
+        text-align: center;
+    }
+</style>
+{% endblock %}
 
-    <title>SFSU</title>
-    <style>
-        #title {
-            white-space: pre-line;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>    
-<div id="title">
-<h1>Software Engineering Class SFSU</h1>
-<h1>Spring 2024</h1>
-<h1>Section 02</h1>
-<h1>Team 05</h1>
-</div>
-    
-    <ul class="user-list">
-        {% for name in names %}
-            <li><a href="/about/{{ name }}">{{ name }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block content %}
+<ul class="user-list">
+    {% for name in names %}
+    <li><a href="/about/{{ name }}">{{ name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
