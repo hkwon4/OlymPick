@@ -24,9 +24,9 @@
             <div class="circle">Profile</div>
             <div class="dropdown-content">
                 <!-- For when we want to edit the profiles -->
-                <a href="#">Option 1</a>
-                <a href="#">Option 2</a>
-                <a href="#">Option 3</a>
+                <a href="{{ url_for('profile.profile', user_id=user_id, full_name=full_name) }}">My Profile</a>
+                <a href="{{ url_for('inbox.inbox', user_id=user_id, full_name=full_name) }}">Inbox</a>
+                <a href="{{ url_for('landing.landing') }}">Log out</a>
             </div>
         </div>
 </div>

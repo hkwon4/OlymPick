@@ -27,7 +27,7 @@ def login():
             session['firstname'] = user['firstName']
             session['lastname'] = user['lastName']
             # Redirect to logged in landing page
-            return redirect(url_for('login.loggedlanding'))
+            return redirect(url_for('login.loggedlanding', user_id=user['user_id'], full_name=user['fullName']))
         else:
             # User doesn't exist or password incorrect
             msg = 'Incorrect email/password!'
@@ -36,4 +36,6 @@ def login():
 
 @login_bp.route('/loggedlanding')
 def loggedlanding():
-    return render_template('loggedlanding.html')
+    user_id = request.args.get('user_id')
+    full_name = request.args.get('full_name')
+    return render_template('loggedlanding.html', user_id=user_id, full_name=full_name)
