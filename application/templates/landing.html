@@ -3,34 +3,30 @@
 
 {% block content %}
     <!-- Navigation links -->
-      <!-- Logo -->
-      <div class="logo-container">
-        <a href="/" class="olympick-logo">Olympick</a>
-    </div>
     <div class="nav-container">
         <a href="/About Me" class="about-me-link">About Me</a>
-        <a href="{{ url_for('login') }}" class="login-link">Login</a>
-        <span class="separator">/</span>
-        <a href="{{ url_for('register') }}" class="register-link">Sign Up</a>
-        <span class="separator"></span>
+        <a href="{{ url_for('register.register') }}" class="register-link">Register</a>
+        <a href="{{ url_for('login.login') }}" class="login-link">Login</a>
         <div class="dropdown">
-            <div class="circle">Profile</div>
+            <div class="circle"></div>
             <div class="dropdown-content">
                 <a href="#">Option 1</a>
                 <a href="#">Option 2</a>
                 <a href="#">Option 3</a>
             </div>
-            
         </div>
     </div>
 
+    <!-- Logo -->
+    <div class="logo-container">
+        <a href="/" class="olympick-logo">Olympick</a>
+    </div>
 
     <!-- Search bar -->
     <div class="search-container">
         <form action="/search" method="post" class="search-bar">
             <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
-            <select name="searchFilter" class="search-select" data-placeholder="Search..."> 
-                <option value="" disabled selected hidden>Filter</option>
+            <select name="searchFilter" class="search-select">
                 <option value="University">University</option>
                 <option value="Sports">Sports</option>
                 <option value="State">State</option>
