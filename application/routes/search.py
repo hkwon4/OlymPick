@@ -16,7 +16,7 @@ def search():
             a.fullName,
             a.gender,
             s.category,
-            a.event_name,
+            s.event_name,
             a.no_medals
         FROM
             Athletes a
