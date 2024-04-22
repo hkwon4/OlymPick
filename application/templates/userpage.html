@@ -38,7 +38,7 @@
         <div class="profile-details">
             <div class="aboutMe">
                 <h2>User About Me Information</h2>
-                <textarea name="aboutMe">{{ about_me }}</textarea>
+                <textarea name="aboutMe">{{ about_me or '' }}</textarea>
             </div>
 
             <div class="sports-interests">
@@ -48,7 +48,7 @@
 
             <div class="links">
                 <h2>User's list of links to videos or resume</h2>
-                <textarea name="link_url">{{ userlink }}</textarea>
+                <textarea name="link_url">{{ userlink or '' }}</textarea>
                
             </div>
         </div>
