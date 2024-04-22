@@ -7,6 +7,9 @@ login_bp = Blueprint('login', __name__)
 
 @login_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'loggedin' in session:
+        return redirect(url_for('login.loggedlanding'))
+
     msg = None  # Initialize msg
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         # Create variables for easy access
@@ -36,4 +39,14 @@ def login():
 
 @login_bp.route('/loggedlanding')
 def loggedlanding():
+    if 'loggedin' not in session:
+        return redirect(url_for('login.login'))
+
     return render_template('loggedlanding.html')
+
+@login_bp.route('/logout')
+def logout():
+    # Clear session data
+    session.clear()
+    # Redirect to the landing page or login page
+    return redirect(url_for('landing.landing'))

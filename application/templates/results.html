@@ -16,6 +16,7 @@
     th {
         background-color: #333;
         color: white;
+        cursor: pointer; /* Add cursor pointer for clickable headers */
     }
     tr:nth-child(even) {
         background-color: #f2f2f2;
@@ -26,43 +27,75 @@
 {% block content %}
 <h1>Search Results for '{{ searchTerm }}'</h1>
 {% if results %}
-<table>
-    {% if searchFilter == 'University' %}
-    <tr>
-        <th>Name of Athlete</th>
-        <th>Gender</th>
-        <th>Category</th>
-        <th>Event Name</th>
-        <th>Number of Medals</th>
-    </tr>
-    {% for item in results %}
-    <tr>
-        <td>{{ item.fullName }}</td>
-        <td>{{ item.gender }}</td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.event_name }}</td>
-        <td>{{ item.no_medals }}</td>
-    </tr>
-    {% endfor %}
-    {% elif searchFilter == 'Sports', 'State' %}
-    <tr>
-        <th>Name of University</th>
-        <th>Number of Events</th>
-        <th>Number of Athletes</th>
-        <th>Number of Medals</th>
-    </tr>
-    {% for item in results %}
-    <tr>
-        <td>{{ item['University Name'] }}</td>
-        <td>{{ item['Number of Events'] }}</td>
-        <td>{{ item['Number of Athletes'] }}</td>
-        <td>{{ item['Number of Medals'] }}</td>
-    </tr>
-    {% endfor %}
-
-    {% endif %}
+<table id="resultsTable">
+    <thead>
+        {% if searchFilter == 'University' %}
+        <tr>
+            <th data-sort="alphabetical">Name of Athlete</th>
+            <th data-sort="alphabetical">Gender</th>
+            <th data-sort="alphabetical">Category</th>
+            <th data-sort="alphabetical">Event Name</th>
+            <th data-sort="numeric">Number of Medals</th>
+        </tr>
+        {% elif searchFilter == 'Sports' or searchFilter == 'State' %}
+        <tr>
+            <th data-sort="alphabetical">Name of University</th>
+            <th data-sort="numeric">Number of Events</th>
+            <th data-sort="numeric">Number of Athletes</th>
+            <th data-sort="numeric">Number of Medals</th>
+        </tr>
+        {% endif %}
+    </thead>
+    <tbody>
+        {% for item in results %}
+        <tr>
+            {% if searchFilter == 'University' %}
+            <td>{{ item.fullName }}</td>
+            <td>{{ item.gender }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.event_name }}</td>
+            <td>{{ item.no_medals }}</td>
+            {% elif searchFilter == 'Sports' or searchFilter == 'State' %}
+            <td>{{ item['University Name'] }}</td>
+            <td>{{ item['Number of Events'] }}</td>
+            <td>{{ item['Number of Athletes'] }}</td>
+            <td>{{ item['Number of Medals'] }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% else %}
 <p>No results found for '{{ searchTerm }}'</p>
 {% endif %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('th[data-sort]').on('click', function() {
+            var table = $(this).parents('table').eq(0);
+            var rows = table.find('tr:gt(0)').toArray().sort(comparator($(this).index()));
+            this.asc = !this.asc;
+            if (!this.asc) {
+                rows = rows.reverse();
+            }
+            for (var i = 0; i < rows.length; i++) {
+                table.append(rows[i]);
+            }
+        });
+
+        function comparator(index) {
+            return function(a, b) {
+                var valA = $(a).children('td').eq(index).text();
+                var valB = $(b).children('td').eq(index).text();
+                if ($.isNumeric(valA) && $.isNumeric(valB)) {
+                    return parseInt(valA, 10) - parseInt(valB, 10);
+                } else {
+                    return valA.localeCompare(valB);
+                }
+            };
+        }
+    });
+</script>
 {% endblock %}
+

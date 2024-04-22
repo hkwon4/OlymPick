@@ -1,0 +1,31 @@
+.user-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates four columns */
+    gap: 20px; /* Space between grid items */
+    padding: 20px; /* Padding around the grid */
+    list-style-type: none; /* Removes default list styling */
+    margin: 40px auto; /* Adds margin to the top and bottom, centers horizontally */
+    max-width: 1200px; /* Maximum width of the grid */
+}
+
+.user-list li {
+    background-color: #86A7FC; /* Background color of each card */
+    color: white;
+    border-radius: 5px; /* Rounded corners for cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
+    transition: transform 0.3s ease; /* Smooth scaling effect on hover */
+}
+
+.user-list li a {
+    display: flex;
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+    height: 150px; /* Fixed height for each card */
+    text-decoration: none; /* Removes underline from links */
+    color: inherit; /* Text color inherited from the li */
+    width: 100%; /* Ensures the link covers the entire card */
+}
+
+.user-list li:hover {
+    transform: scale(1.05); /* Slightly scale up the card on hover */
+}
