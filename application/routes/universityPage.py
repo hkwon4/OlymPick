@@ -23,3 +23,27 @@ def home():
         return render_template('universityHome.html', uni_name=uni_name, address=formatted_address, api_key=API_KEY, email=email, phone=phone_number)
     else:
         return "University not found"
+    
+
+@universityPage_bp.route('/universityPage/sports', methods=['GET', 'POST'])
+def sports():
+    uni_name = request.args.get('uni_name')
+    return render_template('universitySports.html', uni_name=uni_name)
+
+
+@universityPage_bp.route('/universityPage/athletes', methods=['GET', 'POST'])
+def athletes():
+    uni_name = request.args.get('uni_name')
+    return render_template('universityAthletes.html', uni_name=uni_name)
+
+
+@universityPage_bp.route('/universityPage/faculty', methods=['GET', 'POST'])
+def faculty():
+    uni_name = request.args.get('uni_name')
+    return render_template('universityFaculty.html', uni_name=uni_name)
+
+
+@universityPage_bp.route('/universityPage/contact', methods=['GET', 'POST'])
+def contact():
+    uni_name = request.args.get('uni_name')
+    return render_template('universityContact.html', uni_name=uni_name)
