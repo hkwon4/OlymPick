@@ -35,25 +35,26 @@
             <img id="image" src="" alt="Image to crop" style="display: none;">
         </div>
 
-        <button type="submit" class="save-button" style="display: none;">Confirm Changes</button>
+        <div class="profile-details">
+            <div class="aboutMe">
+                <h2>User About Me Information</h2>
+                <textarea name="aboutMe">{{ about_me }}</textarea>
+            </div>
+
+            <div class="sports-interests">
+                <h2>User's Sports Interests</h2>
+                <input type="text" name="sports_interests" value="{{ sports_interests }}">
+            </div>
+
+            <div class="links">
+                <h2>User's list of links to videos or resume</h2>
+                <textarea name="link_url">{{ userlink }}</textarea>
+               
+            </div>
+        </div>
+
+        <button type="submit" class="save-button">Confirm Changes</button>
     </form>
-
-    <div class="profile-details">
-        <div class="about-me">
-            <h2>User About Me Information</h2>
-            <div>SOME INFO HERE</div>
-        </div>
-
-        <div class="sports-interests">
-            <h2>User's Sports Interests</h2>
-            <div>SPORTS INTEREST HERE</div>
-        </div>
-
-        <div class="links">
-            <h2>User's list of links to videos or resume</h2>
-            <div>LINKS HERE</div>
-        </div>
-    </div>
 </div>
 {% endblock %}
 
@@ -143,3 +144,4 @@
     });
 </script>
 {% endblock %}
+
