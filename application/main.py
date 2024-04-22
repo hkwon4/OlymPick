@@ -10,6 +10,7 @@ from routes.register import register_bp
 from routes.about import about_bp
 from routes.search import search_bp
 from routes.inbox import inbox_bp
+from routes.universityPage import universityPage_bp
 from extensions import mysql
 
 app = Flask(__name__)
@@ -33,6 +34,7 @@ app.register_blueprint(register_bp)
 app.register_blueprint(about_bp)
 app.register_blueprint(search_bp)
 app.register_blueprint(inbox_bp)
+app.register_blueprint(universityPage_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)
