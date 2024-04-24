@@ -55,7 +55,7 @@ Instructions on how to use the above information.
     To access Server:
 
     * (Using powershell) save ssh key in secure location on PC
-    * run command ssh -i <path/to/ssh/key.pub> <username>@35.212.156.136
+    * run command ssh -i <path/to/ssh/key.pub> <username>@35.212.255.5
     * (as CEO: use username: csc648.ceo and the ssh public key listed above with that name)
 
     To access MySQL Database
