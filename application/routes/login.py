@@ -4,6 +4,8 @@ import bcrypt
 from extensions import mysql
 import base64
 
+# Code Review - Having different files for different function make it a lot easier to troubleshoot.
+# I find it a lot better than looking through main and trying to pinpoint the exact problem.
 login_bp = Blueprint('login', __name__)
 
 @login_bp.route('/login', methods=['GET', 'POST'])
@@ -23,6 +25,7 @@ def login():
         cursor.close()
 
         # If user exists and passwords match
+        # Code Review - Im wondering if this is the cookies that are implemented so that the user could reload the page and not get logged out.
         if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             # Create session data, we can access this data in other routes
             session['loggedin'] = True
@@ -38,7 +41,7 @@ def login():
             msg = 'Incorrect email/password!'
 
     return render_template('login.html', msg=msg)
-
+# Code Review - So far the code spacing as well as the commenting throughout the entire program is consistent and helpful. 
 @login_bp.route('/loggedlanding')
 def loggedlanding():
     user_id = request.args.get('user_id')
