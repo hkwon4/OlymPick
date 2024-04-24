@@ -9,7 +9,7 @@
 
 Server URL or IP
    
-   http://35.212.156.136/
+   http://35.212.255.5/
    
 SSH username
 
@@ -28,7 +28,7 @@ SSH password or key.
    
 Database URL or IP and port used.
 
-    *SSH Hostname: 35.212.156.136
+    *SSH Hostname: 35.212.255.5
 
     *MYSQL Hostname: 127.0.0.1
 
