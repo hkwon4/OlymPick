@@ -1,4 +1,6 @@
 uni_name,email,password,address,city,state,zipcode,country
+San Francisco State University, sfsu@example.com, sfsu_password, 1600 Holloway Ave, San Francisco, CA, 94132, USA
+San Jose State University, sjsu@example.com, sjsu_password, One Washington Square, San Jose, CA, 95192, USA
 University of Southern California,usc@example.com,usc_password,University Park Campus Los Angeles,Los Angeles,CA,90089,USA
 Stanford University,stanford@example.com,stanford_password,450 Serra Mall,Stanford,CA,94305,USA
 UCLA,ucla@example.com,ucla_password,405 Hilgard Ave,Los Angeles,CA,90095,USA

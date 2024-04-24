@@ -1,0 +1,43 @@
+event_name,category,season,gender
+100m Freestyle,Aquatics,Summer,Male
+200m Freestyle,Aquatics,Summer,Female
+100m Dash,Athletics,Summer,Male
+200m Dash,Athletics,Summer,Female
+Artistic Gymnastics,Gymnastics,Summer,Male
+Rhythmic Gymnastics,Gymnastics,Summer,Female
+Basketball,Team Sports,Summer,Male
+Basketball,Team Sports,Summer,Female
+Judo,Combat Sports,Summer,Male
+Judo,Combat Sports,Summer,Female
+Cycling Road Race,Cycling,Summer,Male
+Cycling Road Race,Cycling,Summer,Female
+10m Air Pistol,Shooting,Summer,Male
+10m Air Pistol,Shooting,Summer,Female
+Rowing Coxless Pairs,Rowing,Summer,Male
+Rowing Coxless Pairs,Rowing,Summer,Female
+Windsurfing,Sailing,Summer,Male
+Windsurfing,Sailing,Summer,Female
+Archery Target Round,Archery,Summer,Male
+Archery Target Round,Archery,Summer,Female
+Triathlon Individual,Triathlon,Summer,Male
+Triathlon Individual,Triathlon,Summer,Female
+Downhill Skiing,Alpine Skiing,Winter,Male
+Downhill Skiing,Alpine Skiing,Winter,Female
+Halfpipe,Snowboarding,Winter,Male
+Halfpipe,Snowboarding,Winter,Female
+500m Speed Skating,Speed Skating,Winter,Male
+500m Speed Skating,Speed Skating,Winter,Female
+Single Skating,Figure Skating,Winter,Male
+Single Skating,Figure Skating,Winter,Female
+Ice Hockey,Ice Hockey,Winter,Male
+Ice Hockey,Ice Hockey,Winter,Female
+15km Cross-Country Skiing,Cross-Country Skiing,Winter,Male
+15km Cross-Country Skiing,Cross-Country Skiing,Winter,Female
+Individual Gundersen,Nordic Combined,Winter,Male
+10km Sprint,Biathlon,Winter,Male
+10km Sprint,Biathlon,Winter,Female
+Two-man Bobsleigh,Bobsleigh,Winter,Male
+Two-man Bobsleigh,Bobsleigh,Winter,Female
+Skeleton,Skeleton,Winter,Male
+Skeleton,Skeleton,Winter,Female
+Individual Ski Jumping,Ski Jumping,Winter,Male
