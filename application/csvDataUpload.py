@@ -35,9 +35,9 @@ def insert_data_from_csv(csv_file, table):
                 elif table == 'Sports':
                     sql_query = "INSERT INTO Sports (event_name, category, season, gender) VALUES (%s, %s, %s, %s)"
                 elif table == 'Athletes':
-                    sql_query = "INSERT INTO Athletes (uni_id, sport_id, firstName, lastName, gender, event_name, no_medals, start_date, end_date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    sql_query = "INSERT INTO Athletes (firstName, lastName, gender) VALUES (%s, %s, %s)"
                 elif table == 'AthleteSports':
-                    sql_query = "INSERT INTO AthleteSports (athlete_id, sport_id) VALUES (%s, %s)"
+                    sql_query = "INSERT INTO AthleteSports (athlete_id, sport_id, year, rank) VALUES (%s, %s, %s, %s)"
                 elif table == 'AthletesUniversities':
                     sql_query = "INSERT INTO AthletesUniversities (athlete_id, uni_id) VALUES (%s, %s)"
                 else:
