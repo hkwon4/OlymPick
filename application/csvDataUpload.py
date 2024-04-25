@@ -61,7 +61,8 @@ def insert_data_from_csv(csv_file, table):
 
 # Example usage
 if __name__ == "__main__":
-    csv_file = input("Enter CSV file path: ")
+    csv_file_name = input("Enter CSV file name: ")
+    csv_file_path = "./csvFiles/" + csv_file_name
     table = input("Enter table name (Universities, Sports, Athletes, AthleteSports, or AthletesUniversities): ")
 
-    insert_data_from_csv(csv_file, table)
+    insert_data_from_csv(csv_file_path, table)
