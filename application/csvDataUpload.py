@@ -8,7 +8,8 @@ def insert_data_from_csv(csv_file, table):
     host = 'localhost'
     username = 'jkwon247'
     password = 'Test!234'
-    database = 'team5_db'
+    #database = 'team5_db'
+    database = 'team5_db_test'
 
     # Connect to MySQL database
     connection = pymysql.connect(host=host,
@@ -30,7 +31,7 @@ def insert_data_from_csv(csv_file, table):
             for row in csv_data:
                 # Construct SQL query to insert row into table
                 if table == 'Universities':
-                    sql_query = "INSERT INTO Universities (uni_name, email, password, address, city, state, zipcode, country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                    sql_query = "INSERT INTO Universities (uni_name, email, phone, password, address, city, state, zipcode, country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
                 elif table == 'Sports':
                     sql_query = "INSERT INTO Sports (event_name, category, season, gender) VALUES (%s, %s, %s, %s)"
                 elif table == 'Athletes':
