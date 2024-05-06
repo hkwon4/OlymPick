@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, session
+from flask import Blueprint, request, render_template
 from extensions import mysql
 
 search_bp = Blueprint('search', __name__)
@@ -7,17 +7,16 @@ search_bp = Blueprint('search', __name__)
 def search():
     searchTerm = request.form.get('searchTerm')
     searchFilter = request.form.get('searchFilter')
-
     cursor = mysql.connection.cursor()
 
     if searchFilter == 'University':
         # SQL query for 'University' search
         query = """
-        SELECT
+        SELECT 
             a.fullName,
             a.gender,
             s.category,
-            s.event_name,
+            a.event_name,
             a.no_medals
         FROM
             Athletes a
@@ -32,11 +31,10 @@ def search():
         ORDER BY a.no_medals DESC;
         """
         cursor.execute(query, (searchTerm,))
-
     elif searchFilter == 'Sports':
         # SQL query for 'Sports' search
         query = """
-        SELECT
+        SELECT 
             u.uni_name,
             COUNT(DISTINCT s.event_name),
             COUNT(DISTINCT a.athlete_id),
@@ -56,11 +54,10 @@ def search():
         """
         like_term = f"%{searchTerm}%"
         cursor.execute(query, (like_term, like_term))
-
     elif searchFilter == 'State':
         # SQL query for 'State' search
         query = """
-        SELECT
+        SELECT 
             u.uni_name,
             COUNT(DISTINCT s.event_name) AS EventCount,
             COUNT(DISTINCT a.athlete_id) AS AthleteCount,
@@ -83,7 +80,6 @@ def search():
     # Fetching results and closing cursor
     result = cursor.fetchall()
     cursor.close()
-
     # Convert the result to the desired format
     results_info = [
         {
@@ -99,5 +95,4 @@ def search():
             'no_medals': row[4]
         } for row in result
     ]
-
-    return render_template('results.html', results=results_info, searchTerm=searchTerm, searchFilter=searchFilter, user_id=session.get('user_id'), full_name=session.get('full_name'))
+    return render_template('results.html', results=results_info, searchTerm=searchTerm, searchFilter=searchFilter)

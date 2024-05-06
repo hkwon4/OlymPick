@@ -9,7 +9,7 @@
 
 Server URL or IP
    
-   http://35.212.255.5/
+   http://35.212.156.136/
    
 SSH username
 
@@ -28,7 +28,7 @@ SSH password or key.
    
 Database URL or IP and port used.
 
-    *SSH Hostname: 35.212.255.5
+    *SSH Hostname: 35.212.156.136
 
     *MYSQL Hostname: 127.0.0.1
 
@@ -55,7 +55,7 @@ Instructions on how to use the above information.
     To access Server:
 
     * (Using powershell) save ssh key in secure location on PC
-    * run command ssh -i <path/to/ssh/key.pub> <username>@35.212.255.5
+    * run command ssh -i <path/to/ssh/key.pub> <username>@35.212.156.136
     * (as CEO: use username: csc648.ceo and the ssh public key listed above with that name)
 
     To access MySQL Database

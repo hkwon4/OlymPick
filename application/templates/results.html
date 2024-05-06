@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}Search Results{% endblock %}
 
 {% block extra_css %}
@@ -26,7 +25,6 @@
 
 {% block content %}
 <h1>Search Results for '{{ searchTerm }}'</h1>
-
 {% if results %}
 <table>
     {% if searchFilter == 'University' %}
@@ -55,16 +53,16 @@
     </tr>
     {% for item in results %}
     <tr>
-        <td><a href="{{ url_for('universityPage.home', uni_name=item['University Name']) }}">{{ item['University Name'] }}</a></td>
+        <td>{{ item['University Name'] }}</td>
         <td>{{ item['Number of Events'] }}</td>
         <td>{{ item['Number of Athletes'] }}</td>
         <td>{{ item['Number of Medals'] }}</td>
     </tr>
     {% endfor %}
+
     {% endif %}
 </table>
 {% else %}
 <p>No results found for '{{ searchTerm }}'</p>
 {% endif %}
-
 {% endblock %}
