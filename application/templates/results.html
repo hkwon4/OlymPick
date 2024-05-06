@@ -45,7 +45,9 @@
                 <th>Gender</th>
                 <th>Category</th>
                 <th>Event Name</th>
-                <th>Number of Medals</th>
+                <th>Year</th>
+                <th>Ranking</th>
+                <th>Medal</th>
             </tr>
             {% for item in results %}
             <tr>
@@ -53,7 +55,9 @@
                 <td>{{ item.gender }}</td>
                 <td>{{ item.category }}</td>
                 <td>{{ item.event_name }}</td>
-                <td>{{ item.no_medals }}</td>
+                <td>{{ item.Year }}</td>
+                <td>{{ item.Ranking }}</td>
+                <td>{{ item.Medal }}</td>
             </tr>
             {% endfor %}
             {% elif searchFilter == 'Sports' or searchFilter == 'State' %}
