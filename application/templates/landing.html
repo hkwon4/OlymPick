@@ -2,30 +2,42 @@
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-    <!-- Navigation links -->
-    <div class="nav-container">
-        <a href="/About Me" class="about-me-link">About Me</a>
+
+<div class="logo-container">
+    <a href="/" class="olympick-logo">Olympick</a>
+ </div>
+
+<!-- Navigation links -->
+<div class="nav-container">
+    <a href="/About Me" class="about-me-link">About Me</a>
+    <div class="auth-links">
         <a href="{{ url_for('register.register') }}" class="register-link">Register</a>
-        <a href="{{ url_for('login.login') }}" class="login-link">Login</a>      
+        <span class="separator">/</span>
+        <a href="{{ url_for('login.login') }}" class="login-link">Sign Up</a>
     </div>
+    <div class="dropdown">
+        <div class="circle">Profile</div>
+        <div class="dropdown-content">
+            <a href="#">Option 1</a>
+            <a href="#">Option 2</a>
+            <a href="#">Option 3</a>      
+        </div>
+    </div>
+</div>
 
-    <!-- Logo -->
-    <div class="logo-container">
-        <a href="/" class="olympick-logo">Olympick</a>
-    </div>
-
-    <!-- Search bar -->
-    <div class="search-container">
-        <form action="/search" method="post" class="search-bar">
-            <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
-            <select name="searchFilter" class="search-select">
-                <option value="University">University</option>
-                <option value="Sports">Sports</option>
-                <option value="State">State</option>
-            </select>
-            <button type="submit" class="search-button">Search</button>
-        </form>
-    </div>
+<!-- Search bar -->
+<div class="search-container">
+    <form action="/search" method="post" class="search-bar">
+        <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
+        <select name="searchFilter" class="search-select">
+            <option value="" disabled selected hidden>Filter</option>
+            <option value="University">University</option>
+            <option value="Sports">Sports</option>
+            <option value="State">State</option>
+        </select>
+        <button type="submit" class="search-button">Search</button>
+    </form>
+</div>
 {% endblock %}
 {% block extra_js %}
 
