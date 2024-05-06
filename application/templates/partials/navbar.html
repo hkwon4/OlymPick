@@ -1,0 +1,18 @@
+<nav class="navbar navbar-light bg-light">
+    <a href="{{ url_for('landing.landing') }}" class="navbar-brand">
+        <img src="{{ url_for('static', filename='css/OlymPick-logo.jpg') }}" alt="OlymPick Logo">
+        <span class="logo-text">OlymPick</span>
+    </a>
+    <ul>
+        <li><a href="{{ url_for('landing.landing') }}">Home</a></li>
+        <li><a href="{{ url_for('about.team') }}">About</a></li>
+        <li><a href="{{ url_for('universityPage.home') }}">University</a></li>
+        {% if 'loggedin' in session %}
+            <li><a href="{{ url_for('profile.profile', user_id=session.get('user_id')) }}">My Profile</a></li>
+            <li><a href="{{ url_for('login.logout') }}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login.login') }}">Login</a></li>
+            <li><a href="{{ url_for('register.register') }}">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
