@@ -14,22 +14,31 @@ def search():
         # SQL query for 'University' search
         query = """
         SELECT
-            a.fullName,
-            a.gender,
-            s.category,
-            s.event_name,
-            a.no_medals
-        FROM
-            Athletes a
-                JOIN
-            AthletesUniversities au ON a.athlete_id = au.athlete_id
-                JOIN
-            Universities u ON au.uni_id = u.university_id
-                JOIN
-            Sports s ON a.sport_id = s.sport_id
-        WHERE
-            u.uni_name = %s
-        ORDER BY a.no_medals DESC;
+            A.fullName AS Name,
+            A.gender AS Gender,
+            S.category AS Category,
+            S.event_name AS Event,
+            ASp.year AS Year,
+            ASp.ranking AS Ranking,
+            CASE
+                WHEN ASp.ranking = 1 THEN 'Gold'
+                WHEN ASp.ranking = 2 THEN 'Silver'
+                WHEN ASp.ranking = 3 THEN 'Bronze'
+                ELSE NULL
+            END AS Medal
+        FROM 
+            Athletes A
+                JOIN 
+            AthleteSports ASp ON A.athlete_id = ASp.athlete_id
+                JOIN 
+            Sports S ON ASp.sport_id = S.sport_id
+                JOIN 
+            AthletesUniversities AU ON A.athlete_id = AU.athlete_id
+                JOIN 
+            Universities U ON AU.uni_id = U.university_id
+        WHERE 
+            U.uni_name = %s
+        ORDER BY A.fullName, ASp.year;
         """
         cursor.execute(query, (searchTerm,))
 
@@ -37,23 +46,27 @@ def search():
         # SQL query for 'Sports' search
         query = """
         SELECT
-            u.uni_name,
-            COUNT(DISTINCT s.event_name),
-            COUNT(DISTINCT a.athlete_id),
-            SUM(a.no_medals)
-        FROM
-            Universities u
-                JOIN
-            AthletesUniversities au ON u.university_id = au.uni_id
-                JOIN
-            Athletes a ON au.athlete_id = a.athlete_id
-                JOIN
-            Sports s ON a.sport_id = s.sport_id
-        WHERE
-            s.event_name LIKE %s OR s.category LIKE %s
-        GROUP BY u.uni_name
-        ORDER BY SUM(a.no_medals) DESC;
+            U.uni_name AS `University`,
+            COUNT(DISTINCT S.sport_id) AS `Number of Events`,
+            COUNT(DISTINCT A.athlete_id) AS `Number of Athletes`,
+            SUM(CASE WHEN ASp.ranking <= 3 THEN 1 ELSE 0 END) AS `Number of Medals`
+        FROM 
+            Universities U
+                JOIN 
+            AthletesUniversities AU ON U.university_id = AU.uni_id
+                JOIN 
+            Athletes A ON AU.athlete_id = A.athlete_id
+                JOIN 
+            AthleteSports ASp ON A.athlete_id = ASp.athlete_id
+                JOIN 
+            Sports S ON ASp.sport_id = S.sport_id
+        WHERE 
+            S.event_name LIKE %s OR S.category LIKE %s
+        GROUP BY U.uni_name
+        ORDER BY `Number of Medals` DESC, U.uni_name;
+
         """
+
         like_term = f"%{searchTerm}%"
         cursor.execute(query, (like_term, like_term))
 
@@ -61,22 +74,24 @@ def search():
         # SQL query for 'State' search
         query = """
         SELECT
-            u.uni_name,
-            COUNT(DISTINCT s.event_name) AS EventCount,
-            COUNT(DISTINCT a.athlete_id) AS AthleteCount,
-            SUM(a.no_medals) AS TotalMedals
-        FROM
-            Universities u
-                JOIN
-            AthletesUniversities au ON u.university_id = au.uni_id
-                JOIN
-            Athletes a ON au.athlete_id = a.athlete_id
-                JOIN
-            Sports s ON a.sport_id = s.sport_id
-        WHERE
-            u.state = %s
-        GROUP BY u.uni_name
-        ORDER BY SUM(a.no_medals) DESC;
+            U.uni_name AS `University`,
+            COUNT(DISTINCT S.sport_id) AS `Number of Events`,
+            COUNT(DISTINCT A.athlete_id) AS `Number of Athletes`,
+            SUM(CASE WHEN ASp.ranking <= 3 THEN 1 ELSE 0 END) AS `Number of Medals`
+        FROM 
+            Universities U
+                JOIN 
+            AthletesUniversities AU ON U.university_id = AU.uni_id
+                JOIN 
+            Athletes A ON AU.athlete_id = A.athlete_id
+                JOIN 
+            AthleteSports ASp ON A.athlete_id = ASp.athlete_id
+                JOIN 
+            Sports S ON ASp.sport_id = S.sport_id
+        WHERE 
+            U.state = %s
+        GROUP BY U.uni_name
+        ORDER BY `Number of Medals` DESC, U.uni_name;
         """
         cursor.execute(query, (searchTerm,))
 
@@ -85,19 +100,25 @@ def search():
     cursor.close()
 
     # Convert the result to the desired format
-    results_info = [
-        {
-            'University Name': row[0],
-            'Number of Events': row[1],
-            'Number of Athletes': row[2],
-            'Number of Medals': row[3]
-        } if searchFilter in ['Sports', 'State'] else {
+    # Convert the result to the desired format
+    results_info = []
+    if searchFilter == 'University':
+        results_info = [{
             'fullName': row[0],
             'gender': row[1],
             'category': row[2],
             'event_name': row[3],
-            'no_medals': row[4]
-        } for row in result
-    ]
+            'Year': row[4],
+            'Ranking': row[5],
+            'Medal': row[6]
+        } for row in result]
+    else:  # Applies to 'Sports' and 'State'
+        results_info = [{
+            'University Name': row[0],
+            'Number of Events': row[1],
+            'Number of Athletes': row[2],
+            'Number of Medals': row[3]
+        } for row in result]
+
 
     return render_template('results.html', results=results_info, searchTerm=searchTerm, searchFilter=searchFilter, user_id=session.get('user_id'), full_name=session.get('full_name'))
