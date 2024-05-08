@@ -11,35 +11,7 @@ body {
     color: #333; /* Default text color */
 }
 
-.navbar {
-    background-color: rgb(97, 190, 199);
-    font-family: calibri;
-    padding: 10px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Raleway', sans-serif;
-}
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    color: #007bff;
-    text-decoration: none;
-}
 
-
-.navbar-brand .logo-text {
-    margin-left: 10px; 
-    color: #9d47a5; /* Sets the text color to blue */
-    font-weight: bold; /* Makes the text bold */
-}
-
-.navbar-brand img {
-    max-height: 50px; /* Adjust this value to fit your design */
-    max-width: 100%; /* Ensures the image does not exceed the width of its container */
-    height: auto; /* Maintains the aspect ratio of the image */
-    width: auto; /*  the width scales correctly */
-}
     
 
 .search-container {
@@ -47,50 +19,7 @@ body {
     text-align: center;
 }
 
-.nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
 
-.nav-links li {
-    display: inline-block;
-    margin-right: 15px;
-}
-
-.nav-links li:last-child {
-    margin-right: 0; /* Remove margin from the last link */
-}
-
-.nav-links a {
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.navbar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-}
-
-.navbar ul li {
-    padding: 0 20px;
-}
-.navbar ul li a {
-    text-decoration: none;
-    color: white; /* Darker text for better readability */
-    font-size: 1em;
-    transition: color 0.3s ease;
-    font-weight: bold;
-}
-
-.navbar ul li a:hover,
-.navbar ul li a:focus {
-    color: white; 
-}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -223,8 +152,9 @@ body {
 }
 
 .banner-container {
-    background-color: #c1cccc; 
-    color: #080707; 
+    background-color: #8d6bec; 
+    color: white; 
+    font-family: 'Raleway', sans-serif;
     padding: 0.1px 0; 
     text-align: center;
     font-size: 18px;
@@ -301,3 +231,31 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+.navbar {
+    background-color: #f8f9fa; /* Light grey background */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 0.5rem 1rem;
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:40px;
+}
+
+
+.navbar-brand img {
+    max-height: 50px; 
+    margin-right:10px;
+    max-width: 100%; /* Ensures the image does not exceed the width of its container */
+    height: auto; /* Maintains the aspect ratio of the image */
+    width: auto; /* Ensures the width scales correctly */
+    border-radius: 50%; /* Makes the image round */
+}
+
+
+
+.nav-item {
+    padding: 0 0.75rem; /* Horizontal padding for nav items */
+}
+

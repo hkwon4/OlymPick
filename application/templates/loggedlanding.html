@@ -24,34 +24,19 @@
 
 {% block content %}
 <!-- Banner included from base.html -->
-<div class="nav-container">
-    <p>Hello! {{ session.get('firstname') }}</p>
-    <a href="{{ url_for('upload.upload') }}" class="upload-link">Upload Files</a>
-    <div class="dropdown">
-        <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
-        <div class="dropdown-content">
-            <a href="{{ url_for('profile.profile', user_id=user_id, full_name=full_name) }}">My Profile</a>
-            <a href="{{ url_for('inbox.inbox', user_id=user_id, full_name=full_name) }}">Inbox</a>
-            <a href="{{ url_for('landing.landing') }}">Log out</a>
-        </div>
+<body> 
+    <div class="search-container">
+        <form action="/search" method="post" class="search-bar">
+            <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
+            <select name="searchFilter" class="search-select">
+                <option value="University">University</option>
+                <option value="Sports">Sports</option>
+                <option value="State">State</option>
+            </select>
+            <button type="submit" class="search-button">Search</button>
+        </form>
     </div>
-</div>
-
-<div class="logo-container">
-    <a href="/" class="olympick-logo">Olympick</a>
-</div>
-
-<div class="search-container">
-    <form action="/search" method="post" class="search-bar">
-        <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
-        <select name="searchFilter" class="search-select">
-            <option value="University">University</option>
-            <option value="Sports">Sports</option>
-            <option value="State">State</option>
-        </select>
-        <button type="submit" class="search-button">Search</button>
-    </form>
-</div>
+</body>
 {% endblock %}
 
 {% block extra_js %}

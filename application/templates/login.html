@@ -5,23 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<nav class="navbar navbar-light bg-light">
-    <a href="{{ url_for('landing.landing') }}" class="navbar-brand">
-        <img src="{{ url_for('static', filename='css/OlymPick-logo.jpg') }}" alt="OlymPick Logo">
-        <span class="logo-text">OlymPick</span>
-    </a>
-    <ul>
-        <li><a href="{{ url_for('landing.landing') }}">Home</a></li>
-        <li><a href="{{ url_for('about.team') }}">About Me</a></li>
-        {% if 'loggedin' in session %}
-            <li><a href="{{ url_for('profile.profile', user_id=session.get('user_id')) }}">My Profile</a></li>
-            <li><a href="{{ url_for('login.logout') }}">Logout</a></li>
-        {% else %}
-            <li><a href="{{ url_for('login.login') }}">Login</a></li>
-            <li><a href="{{ url_for('register.register') }}">Singn UP</a></li>
-        {% endif %}
-    </ul>
-</nav>
+
 <div class="login-form-container">
     <form action="/login" method="POST" class="login-form">
         <h1>Login</h1>
