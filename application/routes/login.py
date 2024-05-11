@@ -4,8 +4,6 @@ import bcrypt
 from extensions import mysql
 import base64
 
-# Code Review - Having different files for different function make it a lot easier to troubleshoot.
-# I find it a lot better than looking through main and trying to pinpoint the exact problem.
 login_bp = Blueprint('login', __name__)
 
 @login_bp.route('/login', methods=['GET', 'POST'])
@@ -25,7 +23,6 @@ def login():
         cursor.close()
 
         # If user exists and passwords match
-        # Code Review - Im wondering if this is the cookies that are implemented so that the user could reload the page and not get logged out.
         if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             # Create session data, we can access this data in other routes
             session['loggedin'] = True
@@ -41,11 +38,48 @@ def login():
             msg = 'Incorrect email/password!'
 
     return render_template('login.html', msg=msg)
-# Code Review - So far the code spacing as well as the commenting throughout the entire program is consistent and helpful. 
+
+
+
+@login_bp.route('/unilogin', methods=['GET', 'POST'])
+def unilogin():
+    msg = None  # Initialize msg
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        # Create variables for easy access
+        email = request.form['email']
+        password = request.form['password']
+
+        # Check if user exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM Universities WHERE email = %s', (email,))
+        # Fetch one record and return result
+        university = cursor.fetchone()
+        print(university)
+        cursor.close()
+
+        # If user exists and passwords match
+        if university and password == university['password']:
+            # Create session data
+            session['loggedin'] = True
+            session['email'] = university['email']
+            session['university_id'] = university['university_id']
+            session['uni_name'] = university['uni_name']
+            # Redirect to logged in landing page
+            return redirect(url_for('login.uniloggedlanding', university_id=university['university_id'], uni_name=university['uni_name']))
+
+        else:
+            # User doesn't exist or password incorrect
+            msg = 'Incorrect email/password!'
+
+    return render_template('unilogin.html', msg=msg)
+
+
+
 @login_bp.route('/loggedlanding')
 def loggedlanding():
     user_id = request.args.get('user_id')
     full_name = request.args.get('full_name')
+    university_id = request.args.get('university_id')
 
     # Retrieve the latest uploaded profile picture for the user from the database
     cursor = mysql.connection.cursor()
@@ -60,3 +94,30 @@ def loggedlanding():
         profile_picture = None
 
     return render_template('loggedlanding.html', user_id=user_id, full_name=full_name, profile_picture=profile_picture)
+
+@login_bp.route('/universityHome')
+def uniloggedlanding():
+    print("helo from unipage ")
+    uni_name = request.args.get('uni_name')
+    university_id = request.args.get('university_id')
+    print(uni_name)
+
+    cursor = mysql.connection.cursor()
+
+    query = "SELECT address, city, state, zipcode, email, phone FROM Universities WHERE uni_name = %s"
+    cursor.execute(query, (uni_name,))
+    
+    result = cursor.fetchone()
+    print(result)
+    cursor.close()
+
+    if result:
+        address, city, state, zipcode, email, phone_number = result
+        formatted_address = f"{address}, {city}, {state} {zipcode}"
+        API_KEY = 'AIzaSyByc-Nkq0OG7uysLeAzABMVjnPQpOeU1IU'
+        return render_template('universityHome.html',university_id = university_id,  uni_name=uni_name, address=formatted_address, api_key=API_KEY, email=email, phone=phone_number)
+    else:
+        return "University not found"
+    
+
+    return render_template('universityHome.html', university_id = university_id, uni_name=uni_name, UniversityProfile= UniversityProfile) 

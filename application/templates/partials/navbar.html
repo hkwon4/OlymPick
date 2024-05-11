@@ -23,9 +23,12 @@
             {% else %}
             <li class="nav-item">
                 <a class="btn btn-primary" href="{{ url_for('login.login') }}" role="button">Login</a> 
+                <a class="btn btn-primary" href="{{ url_for('login.unilogin') }}">University Login</a>
             </li>
             <li class="nav-item">
                 <a class="btn btn-outline-primary" href="{{ url_for('register.register') }}" role="button">Register</a> 
+                <a  class="btn btn-outline-primary" href="{{ url_for('register.uniregister') }}">University Register</a>
+
             </li>
             {% endif %}
         </ul>

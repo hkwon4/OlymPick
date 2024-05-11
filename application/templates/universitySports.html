@@ -3,13 +3,68 @@
 {% block title %}{{ uni_name }} {% endblock %}
 
 {% block extra_css %}
+<style>
+    .map-and-contact {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
 
+    .map-container {
+        width: 350px;
+        height: 400px;
+        position: relative;
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .contact-info {
+        width: 300px;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+    }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        float: right; /* Align the dropdown to the right */
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        right: 0; /* Position the dropdown content to the right */
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="content">
         <h1>{{ uni_name }}</h1>
+        <div class="dropdown">
+            <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
+            <div class="dropdown-content">
+                <a href="{{ url_for('universityPage.university_profile', uni_name=uni_name) }}">My Profile</a>
+                <a href="{{ url_for('inbox.inbox', university_id=university_id, uni_name=uni_name) }}">Inbox</a>
+                <a href="{{ url_for('landing.landing') }}">Log out</a>
+            </div>
+        </div>
+        
 
         <div class="header">
             <ul class="navigation">
@@ -20,7 +75,52 @@
                 <a href="{{ url_for('universityPage.contact', uni_name=uni_name) }}">Contact Us</a>
             </ul>
         </div>
+        <ul>
+            {% for sport in sports_info %}
+            <li>
+                <div class="sport-info">
+                    <h3>Sport ID: {{ sport[0] }}</h3>
+                    <p><strong>Event Name:</strong> {{ sport[1] }}</p>
+                    <p><strong>Category:</strong> {{ sport[2] }}</p>
+                    <p><strong>Season:</strong> {{ sport[3] }}</p>
+                    <p><strong>Gender:</strong> {{ sport[4] }}</p>
+                    <!-- Add more fields as needed -->
+
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <button onclick="toggleEditSection()">Edit</button>
+
+
+        <div id="edit-section" style="display: none;">
+            <form action="" method="post">
+                <label for="sport_id">Sports Id:</label>
+                <input type="text" id="sport_id" name="sport_id">
+                <label for="event_name">Event Name:</label>
+                <input type="text" id="event_name" name="event_name">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category">
+                <label for="season">Season:</label>
+                <input type="text" id="season" name="season">
+                
+                <label for="gender">Gender:</label>
+                <input type="text" id="gender" name="gender">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        
 
     </div>
 </div>
+<script>
+    function toggleEditSection() {
+        var editSection = document.getElementById('edit-section');
+        if (editSection.style.display === 'none') {
+            editSection.style.display = 'block';
+        } else {
+            editSection.style.display = 'none';
+        }
+    }
+</script>
 {% endblock %}

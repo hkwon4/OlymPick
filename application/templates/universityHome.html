@@ -2,6 +2,7 @@
 
 {% block title %}{{ uni_name }} {% endblock %}
 
+
 {% block extra_css %}
 <style>
     .map-and-contact {
@@ -30,6 +31,25 @@
         background-color: #f5f5f5;
         border-radius: 5px;
     }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        float: right; /* Align the dropdown to the right */
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        right: 0; /* Position the dropdown content to the right */
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
 </style>
 {% endblock %}
 
@@ -37,6 +57,17 @@
 <div class="container">
     <div class="content">
         <h1>{{ uni_name }}</h1>
+       
+        <div class="dropdown">
+            <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
+            <div class="dropdown-content">
+                <a href="{{ url_for('universityPage.university_profile',  uni_name=uni_name) }}">My Profile</a>
+                <a href="{{ url_for('inbox.inbox', university_id=university_id, uni_name=uni_name) }}">Inbox</a>
+                <a href="{{ url_for('landing.landing') }}">Log out</a>
+            </div>
+        </div>
+        
+       
 
         <div class="header">
             <ul class="navigation">
@@ -65,7 +96,6 @@
             <div class="contact-info">
                 <h3>Contact Information</h3>
                 <p>Address: {{ address }}</p>
-                <p>Phone: {{ '({}) {}-{}'.format(phone[:3], phone[3:6], phone[6:]) }}</p>
                 <p>Email: {{ email }}</p>
             </div>
 

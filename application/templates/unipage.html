@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profiles.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<style>
+    .cropper-container {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    .cropper-view-box,
+    .cropper-face {
+        border-radius: 50%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('login.uniloggedlanding', university_id=university_id, uni_name=uni_name) }}" class="back-to-search">Back to Home Page</a>
+
+<div class="profile-container">
+    <form id="profileForm" action="{{ url_for('profile.uniuploadprofile', university_id=university_id, uni_name=uni_name) }}" method="POST" enctype="multipart/form-data">
+    <div class="profile-header">
+        <h1 class="user-full-name">{{ full_name }}</h1>
+        <h1>University Profile</h1>
+        <div>
+            {% if university_profile_data %}
+            <p><strong>Programs Offered:</strong> {{ university_profile_data[0][1] }}</p>
+            <p><strong>Contact Information:</strong> {{ university_profile_data[0][2] }}</p>
+            <p><strong>Coaching Staff:</strong> {{ university_profile_data[0][3] }}</p>
+            <p><strong>Facilities:</strong> {{ university_profile_data[0][4] }}</p>
+            {% else %}
+                <p>No university profile found.</p>
+            {% endif %}
+        </div>
+        <a href="#" id="editButton">Edit Profile</a>
+
+    </div>
+     <!-- Edit Section -->
+     <section class="edit-section" style="display: none;">
+        <h2>Edit Profile</h2>
+        <form action="#" method="POST">
+            <!-- Input fields for editing -->
+            <label for="programs">Programs Offered:</label>
+            <textarea name="programs" id="programs" rows="4" cols="50"></textarea>
+
+            <label for="contactInfo">Contact Information:</label>
+            <textarea name="contactInfo" id="contactInfo" rows="4" cols="50"></textarea>
+
+            <label for="coachingStaff">Coaching Staff:</label>
+            <textarea name="coachingStaff" id="coachingStaff" rows="4" cols="50"></textarea>
+
+            <label for="facilities">Facilities:</label>
+            <textarea name="facilities" id="facilities" rows="4" cols="50"></textarea>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButton = document.getElementById('editButton');
+        const editSection = document.querySelector('.edit-section');
+
+        editButton.addEventListener('click', function() {
+            editSection.style.display = 'block';
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const profilePicturePreview = document.getElementById('profile-picture-preview');
+        const fileInput = document.getElementById('profile-picture');
+        const image = document.getElementById('image');
+        const saveButton = document.querySelector('.save-button');
+        let cropper;
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                image.src = e.target.result;
+                image.style.display = 'block';
+
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                cropper = new Cropper(image, {
+                    aspectRatio: 1, // Set the aspect ratio to 1:1 for a square crop
+                    viewMode: 1, // Restrict the crop box to within the canvas
+                    minCropBoxWidth: 200, // Set the minimum crop box width
+                    minCropBoxHeight: 200, // Set the minimum crop box height
+                    dragMode: 'move', // Allow the user to drag the image within the crop box
+                    zoomable: false, // Disable zooming
+                    scalable: false, // Disable scaling
+                    cropBoxResizable: false, // Disable resizing of the crop box
+                    crop: function(event) {
+                        const croppedImageData = cropper.getCroppedCanvas().toDataURL();
+                        profilePicturePreview.style.backgroundImage = `url(${croppedImageData})`;
+                    }
+                });
+
+                saveButton.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        const profileForm = document.getElementById('profileForm');
+        profileForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            if (cropper) {
+                const croppedImageData = cropper.getCroppedCanvas().toDataURL();
+                const blob = dataURItoBlob(croppedImageData);
+                const formData = new FormData();
+                formData.append('files[]', blob, 'cropped_image.jpg'); // Set a generic filename
+
+                fetch(profileForm.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = response.url;
+                    } else {
+                        console.error('Error updating profile picture');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating profile picture', error);
+                });
+            } else {
+                profileForm.submit();
+            }
+        });
+
+        // Helper function to convert Data URL to Blob object
+        function dataURItoBlob(dataURI) {
+            const byteString = atob(dataURI.split(',')[1]);
+            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], { type: mimeString });
+        }
+    });
+</script>
+{% endblock %}
