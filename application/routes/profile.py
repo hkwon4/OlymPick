@@ -7,7 +7,8 @@ from extensions import mysql
 profile_bp = Blueprint('profile', __name__)
 
 @profile_bp.route('/loggedlanding/<int:user_id>/<string:full_name>/profilepage', methods=["GET"])
-def profile(user_id, full_name):
+def profile(user_id, full_name):    
+    
     cursor = mysql.connection.cursor()
 
     # Retrieve the latest uploaded profile picture for the user from the database
@@ -41,7 +42,6 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 @profile_bp.route('/loggedlanding/<int:user_id>/<string:full_name>/profilepage', methods=["POST"])
 def uploadprofile(user_id, full_name):
-    print("hello")
     if request.method == 'POST':
         files = request.files.getlist('files[]')
         for file in files:
@@ -104,3 +104,77 @@ def uploadprofile(user_id, full_name):
             
         flash('Profile updated successfully.')
         return redirect(url_for('profile.profile', user_id=user_id, full_name=full_name))
+
+
+@profile_bp.route('/loggedlanding/<string:uni_name>/uploadprofile', methods=["GET"])
+def uniprofile(uni_name):
+
+    cursor = mysql.connection.cursor()
+
+    # Fetch university_id based on the university name
+    query_university_id = "SELECT university_id FROM Universities WHERE uni_name = %s"
+    cursor.execute(query_university_id, (uni_name,))
+    university_id = cursor.fetchone()[0]  # Fetch the first column of the first row
+
+    # Retrieve university profile data from the database
+    cursor.execute("SELECT * FROM UniversityProfile WHERE uni_id = %s", (university_id,))
+    university_profile_data = cursor.fetchone()
+
+    cursor.close()
+    return render_template('unipage.html',  university_id=university_id, uni_name=uni_name,university_profile_data=university_profile_data)
+
+@profile_bp.route('/loggedlanding/<int:university_id>/<string:uni_name>/uploadprofile', methods=["POST"])
+def uniuploadprofile(university_id, uni_name):
+    # Handle other profile details, like programs and contact info
+    programs = request.form.get('programs')
+    contactInfo = request.form.get('contactInfo')
+    coachingStaff = request.form.get('coachingStaff')
+    facilities = request.form.get('facilities')
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT * FROM UniversityProfile WHERE uni_id = %s", (university_id,))
+    existing_data = cursor.fetchone()
+
+    # Combine existing data with new data
+    if existing_data:
+        existing_programs = existing_data[1]
+        existing_contact_info = existing_data[2]
+        existing_coaching_staff = existing_data[3]
+        existing_facilities = existing_data[4]
+        
+        # Append new data to existing data
+        combined_programs = existing_programs + ', ' + programs
+        combined_contact_info = existing_contact_info + ', ' + contactInfo
+        combined_coaching_staff = existing_coaching_staff + ', ' + coachingStaff
+        combined_facilities = existing_facilities + ', ' + facilities
+        
+        # Update database with combined data
+        cursor.execute("UPDATE UniversityProfile SET programs = %s, contactInfo = %s, coachingStaff = %s, facilities = %s WHERE uni_id = %s", 
+                       (combined_programs, combined_contact_info, combined_coaching_staff, combined_facilities, university_id))
+    else:
+        # Insert new record into the database
+        cursor.execute("INSERT INTO UniversityProfile (uni_id, programs, contactInfo, coachingStaff, facilities) VALUES (%s, %s, %s, %s, %s)", 
+                       (university_id, programs, contactInfo, coachingStaff, facilities))
+
+    # Commit changes to the database
+    mysql.connection.commit()
+    cursor.close()
+    
+    flash('Profile updated successfully.')
+    
+    # Redirect to uniprofile route without passing additional parameters
+    return redirect(url_for('profile.uniprofile', university_id=university_id, uni_name=uni_name))
+
+@profile_bp.route('/loggedlanding/<int:university_id>/<string:uni_name>', methods=["GET"])
+def uniloggedlanding(university_id, uni_name):
+    cursor = mysql.connection.cursor()
+
+    # Retrieve university profile data from the database
+    cursor.execute("SELECT * FROM UniversityProfile WHERE uni_id = %s", (university_id,))
+    UniversityProfile = cursor.fetchone()
+
+    cursor.close()
+
+    # Pass the retrieved data to the template context
+    return render_template('uniloggedlanding.html', university_id=university_id, uni_name=uni_name, UniversityProfile=UniversityProfile)

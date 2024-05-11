@@ -21,7 +21,7 @@ app.secret_key = 'your_secret_key_here'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'yu942u'
 app.config['MYSQL_PASSWORD'] = 'Test!234'
-app.config['MYSQL_DB'] = 'team5_db_test'
+app.config['MYSQL_DB'] = 'team5_db'
 
 mysql.init_app(app)
 
