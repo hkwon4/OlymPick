@@ -1,43 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Welcome{% endblock %}
 
-{% block content %}
-<body> 
-    <!-- Search bar -->
-    <div class="search-container">
-        <form action="/search" method="post" class="search-bar">
-            <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
-            <select name="searchFilter" class="search-select">
-                <option value="University">University</option>
-                <option value="Sports">Sports</option>
-                <option value="State">State</option>
-            </select>
-            <button type="submit" class="search-button">Search</button>
-        </form>
-    </div>
-</body>
-{% endblock %}
-{% block extra_js %}
-
-
-    <!-- JavaScript for filter options -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var filterOptions = document.querySelectorAll('.filter-option');
-            var searchInput = document.getElementById('search-input');
-            var filterButton = document.querySelector('.dropbtn'); // Target the filter button
-
-            filterOptions.forEach(function (option) {
-                option.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    var placeholderText = "Searching " + this.getAttribute('data-search-placeholder') + "...";
-                    var buttonText = this.getAttribute('data-search-placeholder'); // Prepare new button text
-                    searchInput.setAttribute('placeholder', placeholderText);
-                    filterButton.textContent = buttonText; // Update the button text
-                });
-            });
-        });
-    </script>
-{% endblock %}
 
 
