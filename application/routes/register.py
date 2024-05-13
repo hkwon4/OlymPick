@@ -45,7 +45,6 @@ def register():
 
 @register_bp.route('/uniregister', methods=['GET', 'POST'])
 def uniregister():
-    print("hello from uni")
     msg = None  # Initialize msg
     if request.method == 'POST' and 'uni_name' in request.form and 'email' in request.form and 'password' in request.form:
         uni_name = request.form.get('uni_name')

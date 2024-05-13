@@ -24,7 +24,6 @@ app.config['MYSQL_PASSWORD'] = 'Test!234'
 app.config['MYSQL_DB'] = 'team5_db_test'
 
 mysql.init_app(app)
-
 # Register blueprints
 app.register_blueprint(landing_bp)
 app.register_blueprint(profile_bp)

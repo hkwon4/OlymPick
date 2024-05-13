@@ -3,6 +3,7 @@
 {% block title %}Manage Profile{% endblock %}
 
 {% block extra_css %}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profiles.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 <style>
@@ -14,6 +15,37 @@
     .cropper-face {
         border-radius: 50%;
     }
+    body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #464ea5;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff; /* Set the background color of the table to white */
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+      
 </style>
 {% endblock %}
 
@@ -36,6 +68,24 @@
             {% endif %}
         </div>
         <a href="#" id="editButton">Edit Profile</a>
+
+        <h1>Google Analytics Report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>City</th>
+                <th>Users Engaged</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in report_data %}
+            <tr>
+                <td>{{ data.city }}</td>
+                <td>{{ data.active_users }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     </div>
      <!-- Edit Section -->

@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} text-center" style="color: red; font-size: 18px;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 
 <div class="login-form-container">
     <form action="/login" method="POST" class="login-form">
@@ -21,4 +31,6 @@
         <a href="{{ url_for('register.register') }}" class="login-link">Register</a>
     </form>
 </div>
+
+
 {% endblock %}

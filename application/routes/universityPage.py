@@ -1,6 +1,25 @@
 from flask import Blueprint, request, render_template, session, redirect, url_for
 import MySQLdb.cursors
 from extensions import mysql
+import os
+from google.analytics.data_v1beta import BetaAnalyticsDataClient
+from google.analytics.data_v1beta.types import (
+    DateRange,
+    Dimension,
+    Metric,
+    RunReportRequest,
+)
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/home/lamanichan01/.vscode-server/data/Machine/csc-648-02-spring24-team05/application/routes/team05.json'
+
+# Runs a simple report on a Google Analytics 4 property.
+# TODO(developer): Uncomment this variable and replace with your
+# Google Analytics 4 property ID before running the sample.
+property_id = "440696384"
+
+# Using a default constructor instructs the client to use the credentials
+# specified in GOOGLE_APPLICATION_CREDENTIALS environment variable.
+client = BetaAnalyticsDataClient()
 
 universityPage_bp = Blueprint('universityPage', __name__)
 
@@ -101,7 +120,6 @@ def athletes():
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT a.* FROM Athletes a JOIN AthletesUniversities au ON a.athlete_id = au.athlete_id WHERE au.uni_id = %s", (university_id,))
         athletes_info = cursor.fetchall()
-        print(athletes_info)
         cursor.close()
 
     if request.method == 'POST':
@@ -189,6 +207,19 @@ def university_profile(uni_name):
     cursor.execute(query_university_profile, (university_id,))
     university_profile_data = cursor.fetchall()
     cursor.close()
-
-
-    return render_template('unipage.html', uni_name=uni_name, university_id=university_id, university_profile_data=university_profile_data)
+    
+    request = RunReportRequest(
+        property=f"properties/{property_id}",
+        dimensions=[Dimension(name="city")],
+        metrics=[Metric(name="activeUsers")],
+        date_ranges=[DateRange(start_date="2024-03-31", end_date="today")],
+    )
+    response = client.run_report(request)
+    report_data = []
+    for row in response.rows:
+        report_data.append({
+            'city': row.dimension_values[0].value,
+            'active_users': row.metric_values[0].value
+        })
+    
+    return render_template('unipage.html', uni_name=uni_name, university_id=university_id, university_profile_data=university_profile_data, report_data=report_data)
