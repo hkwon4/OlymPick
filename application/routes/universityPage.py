@@ -10,7 +10,7 @@ from google.analytics.data_v1beta.types import (
     RunReportRequest,
 )
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/home/lamanichan01/.vscode-server/data/Machine/csc-648-02-spring24-team05/application/routes/team05.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'routes/team05.json'
 
 # Runs a simple report on a Google Analytics 4 property.
 # TODO(developer): Uncomment this variable and replace with your
