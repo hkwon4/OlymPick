@@ -50,6 +50,23 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #333;
+        color: white;
+    }
+    tr {
+        background-color: white;
+    }
 </style>
 {% endblock %}
 
@@ -78,16 +95,18 @@
             </ul>
         </div>
 
-        <ul>
-            {% for athletes in athletes_info %}
-            <li>
-                <div class="sport-info">
-                    <h3>Full Name: {{ athletes[3] }}</h3>
-                    <h3>Gender: {{ athletes[4] }}</h3>
-                </div>
-            </li>
+        <table>
+            <tr>
+                <th>Full Name</th>
+                <th>Gender</th>
+            </tr>
+            {% for athlete in athletes_info %}
+            <tr>
+                <td>{{ athlete[3] }}</td>
+                <td>{{ athlete[4] }}</td>
+            </tr>
             {% endfor %}
-            </ul>
+        </table>
 
             <button onclick="toggleEditSection()">Edit</button>
 

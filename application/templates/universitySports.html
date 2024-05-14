@@ -49,6 +49,23 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #333;
+        color: white;
+    }
+    tr {
+        background-color: white;
+    }
 </style>
 {% endblock %}
 
@@ -76,21 +93,20 @@
                 <a href="{{ url_for('universityPage.contact', uni_name=uni_name) }}">Contact Us</a>
             </ul>
         </div>
-        <ul>
-            {% for sport in sports_info %}
-            <li>
-                <div class="sport-info">
-                    <h3>Sport ID: {{ sport[0] }}</h3>
-                    <p><strong>Event Name:</strong> {{ sport[1] }}</p>
-                    <p><strong>Category:</strong> {{ sport[2] }}</p>
-                    <p><strong>Season:</strong> {{ sport[3] }}</p>
-                    <p><strong>Gender:</strong> {{ sport[4] }}</p>
-                    <!-- Add more fields as needed -->
-
-                </div>
-            </li>
+        <table>
+            <tr>
+                <th>Event Name</th>
+                <th>Category</th>
+                <th>Season</th>
+            </tr>
+            {% for item in sports_info %}
+            <tr>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+            </tr>
             {% endfor %}
-        </ul>
+        </table>
         <button onclick="toggleEditSection()">Edit</button>
 
 
