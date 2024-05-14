@@ -1,36 +1,34 @@
 {% extends "base.html" %}
 
-{% block title %}{{ uni_name }} {% endblock %}
-
+{% block title %}{{ uni_name }}{% endblock %}
 
 {% block extra_css %}
 <style>
     .map-and-contact {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column; /* Stack elements vertically */
         margin-top: 20px;
+        align-items: center; /* Center align the items */
     }
 
-    .map-container {
-        width: 350px;
-        height: 400px;
-        position: relative;
+    .map-container,
+    .contact-info {
+        width: 100%;
+        max-width: 600px; /* Max width for larger screens */
+        margin-bottom: 20px; /* Space between elements */
     }
 
     #map {
-        position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
-        height: 100%;
+        height: 400px;
     }
 
     .contact-info {
-        width: 300px;
         padding: 20px;
         background-color: #f5f5f5;
         border-radius: 5px;
     }
+
     .dropdown {
         position: relative;
         display: inline-block;
@@ -42,7 +40,7 @@
         position: absolute;
         background-color: #f9f9f9;
         min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
         right: 0; /* Position the dropdown content to the right */
     }
@@ -57,33 +55,31 @@
 {% include 'partials/searchbar.html' %}
 <div class="container universityContainer">
     <div class="content">
-        <h1>{{ uni_name }}</h1>
-       
+        <h1 class="text-center">{{ uni_name }}</h1>
+
         <div class="dropdown">
             <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
             <div class="dropdown-content">
-                <a href="{{ url_for('universityPage.university_profile',  uni_name=uni_name) }}">My Profile</a>
+                <a href="{{ url_for('universityPage.university_profile', uni_name=uni_name) }}">My Profile</a>
                 <a href="{{ url_for('inbox.inbox', university_id=university_id, uni_name=uni_name) }}">Inbox</a>
                 <a href="{{ url_for('landing.landing') }}">Log out</a>
             </div>
         </div>
-        
+
         {% include 'partials/universityHeader.html' %}
-
-
 
         <div class="welcome-message">
             <p>Welcome Aspiring Athletes to <strong>{{ uni_name }}</strong>!</p>
         </div>
-            <label style="background-color: white; font-size: 20px;" for="sfsu">{{uni_name}} is a major public urban university, situated in one of the world’s great cities. Building on a century-long history of commitment to quality teaching and broad access to undergraduate and graduate education, the University offers comprehensive, rigorous, and integrated academic programs that require students to engage in open-minded inquiry and reflection. 
+        <label for="sfsu">{{uni_name}} is a major public urban university, situated in one of the world’s great cities. Building on a century-long history of commitment to quality teaching and broad access to undergraduate and graduate education, the University offers comprehensive, rigorous, and integrated academic programs that require students to engage in open-minded inquiry and reflection. 
 
-                {{uni_name}} prepares its students to become productive, ethical, active citizens with a global perspective.</label>
-                <br>
-                <label style="background-color: white; font-size: 20px;">{{uni_name}} educates and equips students to thrive in a global society. We deliver academic excellence by pursuing knowledge, inspiring creativity, supporting our diverse community and advancing social justice and positive change in the world.</label>
-            
-        
-            <div class="map-container" style="width: 350px; height: 400px; position: relative;">
-                <div id="map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+            {{uni_name}} prepares its students to become productive, ethical, active citizens with a global perspective.</label>
+        <br>
+        <label>{{uni_name}} educates and equips students to thrive in a global society. We deliver academic excellence by pursuing knowledge, inspiring creativity, supporting our diverse community and advancing social justice and positive change in the world.</label>
+
+        <div class="map-and-contact">
+            <div class="map-container">
+                <div id="map"></div>
                 <script>
                     var address = "{{ address }}";
                     var mapUrl = "https://www.google.com/maps/embed/v1/place?key={{ api_key }}&q=" + encodeURIComponent(address);
@@ -97,7 +93,7 @@
                 <p>Address: {{ address }}</p>
                 <p>Email: {{ email }}</p>
             </div>
-
+        </div>
     </div>
 </div>
 {% endblock %}
