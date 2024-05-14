@@ -148,11 +148,11 @@ def faculty():
     uni_name = request.args.get('uni_name')
     cursor = mysql.connection.cursor()
 
+    # Fetch university_id based on the university name
     query_university_id = "SELECT university_id FROM Universities WHERE uni_name = %s"
     cursor.execute(query_university_id, (uni_name,))
     university_id = cursor.fetchone()[0]  # Fetch the first column of the first row
 
-    
     if request.method == 'POST':
         # Handle form submission here
         email = request.form.get('email')
@@ -166,11 +166,12 @@ def faculty():
         mysql.connection.commit()
         cursor.close()
     else:
-        cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * from Faculty") 
+        # Fetch faculty information for the current university
+        cursor.execute("SELECT * FROM Faculty WHERE university_id = %s", (university_id,))
         result = cursor.fetchall()
-        print(result)
+
     return render_template('universityFaculty.html', uni_name=uni_name, result=result)
+
 
 
 @universityPage_bp.route('/universityPage/contact', methods=['GET', 'POST'])
@@ -188,7 +189,7 @@ def contact():
         address, city, state, zipcode, email, phone_number = result
         formatted_address = f"{address}, {city}, {state} {zipcode}"
         API_KEY = 'AIzaSyByc-Nkq0OG7uysLeAzABMVjnPQpOeU1IU'
-        return render_template('universityHome.html', uni_name=uni_name, address=formatted_address, api_key=API_KEY, email=email, phone=phone_number)
+        return render_template('universityContact.html', uni_name=uni_name, address=formatted_address, api_key=API_KEY, email=email, phone=phone_number)
     else:
         return "University not found"
     

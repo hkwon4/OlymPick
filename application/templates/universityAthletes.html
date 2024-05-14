@@ -50,15 +50,33 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #333;
+        color: white;
+    }
+    tr {
+        background-color: white;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 {% include 'partials/searchbar.html' %}
-<div class="container">
+<div class="container universityContainer">
     <div class="content">
-        <h1>{{ uni_name }}</h1>
-       
+        <h1 class="text-center">{{ uni_name }}</h1>
+        {% if session['is_admin'] %}
+
         <div class="dropdown">
             <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
             <div class="dropdown-content">
@@ -67,29 +85,27 @@
                 <a href="{{ url_for('landing.landing') }}">Log out</a>
             </div>
         </div>
+        {% endif %}
 
-        <div class="header">
-            <ul class="navigation">
-                <a href="{{ url_for('universityPage.home', uni_name=uni_name) }}">HOME</a>
-                <a href="{{ url_for('universityPage.sports', uni_name=uni_name) }}">Sports</a>
-                <a href="{{ url_for('universityPage.athletes', university_id=university_id, uni_name=uni_name) }}" style="font-weight: bold;">Athletes</a>
-                <a href="{{ url_for('universityPage.faculty', uni_name=uni_name) }}">Faculty</a>
-                <a href="{{ url_for('universityPage.contact', uni_name=uni_name) }}">Contact Us</a>
-            </ul>
-        </div>
 
-        <ul>
-            {% for athletes in athletes_info %}
-            <li>
-                <div class="sport-info">
-                    <h3>Full Name: {{ athletes[3] }}</h3>
-                    <h3>Gender: {{ athletes[4] }}</h3>
-                </div>
-            </li>
+        {% include 'partials/universityHeader.html' %}
+
+        <table>
+            <tr>
+                <th>Full Name</th>
+                <th>Gender</th>
+            </tr>
+            {% for athlete in athletes_info %}
+            <tr>
+                <td>{{ athlete[3] }}</td>
+                <td>{{ athlete[4] }}</td>
+            </tr>
             {% endfor %}
-            </ul>
+        </table>
 
-            <button onclick="toggleEditSection()">Edit</button>
+        {% if session['is_admin'] %}
+        <button onclick="toggleEditSection()">Edit</button>
+        {% endif %}
 
 
             <div id="edit-section" style="display: none;">
