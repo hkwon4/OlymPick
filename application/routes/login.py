@@ -23,6 +23,7 @@ def login():
             session['email'] = user['email']
             session['firstname'] = user['firstName']
             session['lastname'] = user['lastName']
+            session['user_id'] = user['user_id']  
             return redirect(url_for('login.loggedlanding', user_id=user['user_id'], full_name=user['fullName']))
         else:
             flash('Incorrect email/password!', 'error')  # Set a flash message
