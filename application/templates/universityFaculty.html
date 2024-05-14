@@ -78,13 +78,13 @@
                 <th>Full Name</th>
                 <th>Email</th>
             </tr>
-            {% for faculty in faculties_info %}
+            {% for faculty in result %}
             <tr>
                 <td>{{ faculty[4] }} {{ faculty[5] }}</td>
                 <td>{{ faculty[2] }}</td>
             </tr>
             {% endfor %}
-        </table> 
+        </table>
 
 {% if session['is_admin'] %}
 <button onclick="toggleEditSection()">Edit</button>
