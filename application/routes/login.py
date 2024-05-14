@@ -24,6 +24,10 @@ def login():
             session['firstname'] = user['firstName']
             session['lastname'] = user['lastName']
             session['user_id'] = user['user_id']  
+            if '@example' in user['email']:
+                session['is_admin'] = True
+            else:
+                session['is_admin'] = False
             return redirect(url_for('login.loggedlanding', user_id=user['user_id'], full_name=user['fullName']))
         else:
             flash('Incorrect email/password!', 'error')  # Set a flash message
@@ -49,6 +53,11 @@ def unilogin():
             session['email'] = university['email']
             session['university_id'] = university['university_id']
             session['uni_name'] = university['uni_name']
+            if '@example' in university['email']:
+                session['is_admin'] = True
+            else:
+                session['is_admin'] = False
+
             return redirect(url_for('login.uniloggedlanding', university_id=university['university_id'], uni_name=university['uni_name']))
         else:
             flash('Incorrect email/password!', 'error')  # Set a flash message
