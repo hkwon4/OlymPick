@@ -41,7 +41,7 @@ def insert_data_from_csv(csv_file, table):
                 elif table == 'AthletesUniversities':
                     sql_query = "INSERT INTO AthletesUniversities (athlete_id, uni_id) VALUES (%s, %s)"
                 elif table == 'Faculty':
-                    sql_query = "INSERT INTO Faculty (university_id, email, password) VALUES (%s, %s, %s)"
+                    sql_query = "INSERT INTO Faculty (university_id, firstName, lastName, email, password) VALUES (%s, %s, %s, %s, %s)"
                 else:
                     print("Invalid table name.")
                     return
