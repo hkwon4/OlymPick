@@ -57,6 +57,7 @@
     <div class="content">
         <h1 class="text-center">{{ uni_name }}</h1>
 
+        {% if session['is_admin'] %}
         <div class="dropdown">
             <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
             <div class="dropdown-content">
@@ -65,6 +66,7 @@
                 <a href="{{ url_for('landing.landing') }}">Log out</a>
             </div>
         </div>
+        {% endif %}
 
         {% include 'partials/universityHeader.html' %}
 
