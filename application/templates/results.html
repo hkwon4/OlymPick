@@ -17,52 +17,59 @@
         background-color: #333;
         color: white;
     }
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
+    tr {
+        background-color: white;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<h1>Search Results for '{{ searchTerm }}'</h1>
-{% if results %}
-<table>
-    {% if searchFilter == 'University' %}
-    <tr>
-        <th>Name of Athlete</th>
-        <th>Gender</th>
-        <th>Category</th>
-        <th>Event Name</th>
-        <th>Number of Medals</th>
-    </tr>
-    {% for item in results %}
-    <tr>
-        <td>{{ item.fullName }}</td>
-        <td>{{ item.gender }}</td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.event_name }}</td>
-        <td>{{ item.no_medals }}</td>
-    </tr>
-    {% endfor %}
-    {% elif searchFilter == 'Sports', 'State' %}
-    <tr>
-        <th>Name of University</th>
-        <th>Number of Events</th>
-        <th>Number of Athletes</th>
-        <th>Number of Medals</th>
-    </tr>
-    {% for item in results %}
-    <tr>
-        <td>{{ item['University Name'] }}</td>
-        <td>{{ item['Number of Events'] }}</td>
-        <td>{{ item['Number of Athletes'] }}</td>
-        <td>{{ item['Number of Medals'] }}</td>
-    </tr>
-    {% endfor %}
+    {% include 'partials/searchbar.html' %}
+    <!-- Existing search results -->
+    <h1>Search Results for '{{ searchTerm }}'</h1>
 
+    {% if results %}
+        <!-- Display search results -->
+        <table>
+            {% if searchFilter == 'University' %}
+            <tr>
+                <th>Name of Athlete</th>
+                <th>Gender</th>
+                <th>Category</th>
+                <th>Event Name</th>
+                <th>Year</th>
+                <th>Ranking</th>
+                <th>Medal</th>
+            </tr>
+            {% for item in results %}
+            <tr>
+                <td>{{ item.fullName }}</td>
+                <td>{{ item.gender }}</td>
+                <td>{{ item.category }}</td>
+                <td>{{ item.event_name }}</td>
+                <td>{{ item.Year }}</td>
+                <td>{{ item.Ranking }}</td>
+                <td>{{ item.Medal }}</td>
+            </tr>
+            {% endfor %}
+            {% elif searchFilter == 'Sports' or searchFilter == 'State' %}
+            <tr>
+                <th>Name of University</th>
+                <th>Number of Events</th>
+                <th>Number of Athletes</th>
+                <th>Number of Medals</th>
+            </tr>
+            {% for item in results %}
+            <tr>
+                <td><a href="{{ url_for('universityPage.home', uni_name=item['University Name']) }}">{{ item['University Name'] }}</a></td>
+                <td>{{ item['Number of Events'] }}</td>
+                <td>{{ item['Number of Athletes'] }}</td>
+                <td>{{ item['Number of Medals'] }}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+    {% else %}
+        <p>No results found for '{{ searchTerm }}'</p>
     {% endif %}
-</table>
-{% else %}
-<p>No results found for '{{ searchTerm }}'</p>
-{% endif %}
 {% endblock %}

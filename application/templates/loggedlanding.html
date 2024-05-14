@@ -1,43 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    <title>Welcome</title>
-</head>
-<body>
-    <!-- Banner -->
-    <div class="banner-container">
-        <p>SFSU Software Engineering Project CSC 648-848, Spring 2024. For Demonstration Only</p>
-        <br>
-        <p> Section 2 Team 05</p>
-    </div>
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
 
-    
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+<style>
+    .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+    }
+    .dropdown-content {
+        display: none;
+    }
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+</style>
+{% endblock %}
 
-<div class="nav-container">
-   
-       <p>Hello! {{session.get('firstname')}}</p>
-       <a href="{{ url_for('upload.upload') }}" class="upload-link"> Upload Files</a>
+{% block content %}
+<!-- Banner included from base.html -->
+<body> 
+
+    <div class="nav-container">
+        <p>Hello! {{ session.get('firstname') }}</p>
+        <a href="{{ url_for('upload.upload') }}" class="upload-link">Upload Files</a>
         <div class="dropdown">
-            <div class="circle">Profile</div>
+            <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
             <div class="dropdown-content">
-                <!-- For when we want to edit the profiles -->
-                <a href="#">Option 1</a>
-                <a href="#">Option 2</a>
-                <a href="#">Option 3</a>
+                <a href="{{ url_for('profile.profile', user_id=user_id, full_name=full_name) }}">My Profile</a>
+                <a href="{{ url_for('inbox.inbox', user_id=user_id, full_name=full_name) }}">Inbox</a>
+                <a href="{{ url_for('landing.landing') }}">Log out</a>
             </div>
         </div>
-</div>
-
-<!-- Logo -->
-<div class="logo-container">
-    <a href="/" class="olympick-logo">Olympick</a>
-</div>
-
-    
-    <!-- Search bar -->
+    </div>
     <div class="search-container">
         <form action="/search" method="post" class="search-bar">
             <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
@@ -49,6 +49,8 @@
             <button type="submit" class="search-button">Search</button>
         </form>
     </div>
+</body>
+{% endblock %}
 
     <!-- JavaScript for filter options -->
     <script>

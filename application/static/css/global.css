@@ -12,7 +12,53 @@ body {
 }
 
 
+    
 
+.search-container {
+    flex: 1; /* Let the search container take up remaining space */
+    text-align: center;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    .navbar ul li {
+        padding: 10px 0;
+    }
+}
+
+.logo-container img {
+    height: 30px;
+    margin-right: 10px;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-select {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
 
 .search-container {
     text-align: center; 
@@ -27,15 +73,29 @@ body {
     max-width: 600px;
     margin: 0 auto;
 }
+.search-bar button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
 
+.search-bar button:hover {
+    background-color: #344d68;
+}
 .search-select {
     padding: 10px 20px; 
     border: 1px solid #ccc; 
+    background-color: #f9f9f9;
+    color: #333; 
     background-color: #9f9f9f;
     color: white; 
     border-radius: 5px; 
     cursor: pointer;
-    margin-left: 10px; 
+    margin-left: 10px;  
 }
 
 .search-bar input[type="text"] {
@@ -89,12 +149,13 @@ body {
 }
 
 .search-bar button:hover {
-    background-color: #0056b3; 
+    background-color: #344d68; 
 }
 
 .banner-container {
-    background-color: #ffffff; 
-    color: #007bff; 
+    background-color: #8d6bec; 
+    color: white; 
+    font-family: 'Raleway', sans-serif;
     padding: 0.1px 0; 
     text-align: center;
     font-size: 18px;
@@ -107,18 +168,6 @@ body {
     font-weight: 700; 
     letter-spacing: 1.5px; 
     text-transform: uppercase;
-}
-
-.logo-container {
-    padding: 10px;
-    text-align: center; 
-    margin: 0 20px; 
-}
-.logo-container a {
-    color: red; 
-    text-decoration: none;
-    font-size:32px;
-    font-weight: bold;
 }
 
 .nav-container {
@@ -138,14 +187,6 @@ body {
     display: inline-block;
 }
 
-.register-link,
-.login-link {
-    color: #0b0b0b;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: bold;
-}
-
 .separator {
     margin: 0.5px; /* Adjust spacing between links and separator */
 }
@@ -155,6 +196,7 @@ body {
     display: inline-block;
 }
 
+
 .circle {
     width: 70px;
     height: 70px;
@@ -163,6 +205,7 @@ body {
     color: #f8f2f2; /* Set text color */
     font-weight: bold;
     display: flex;
+    font-weight: bold;
     justify-content: center;
     align-items: center;
     border: 2px solid #333; /* Set border color */
@@ -189,72 +232,63 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-/* Navbar specific styles */
+
 .navbar {
-    background-color: #A3D8FF; 
+    background-color: #f8f9fa; /* Light grey background */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 10px 20px;
+    padding: 0.5rem 1rem;
+    font-family: 'Raleway', sans-serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Raleway', sans-serif; /* Applies Raleway font to the navbar */
-}
-.navbar-brand {
-    display: flex;
-    align-items: center; /* Ensures vertical centering */
-    color: #007bff;
-    text-decoration: none;
+    margin-bottom:40px;
 }
 
-.navbar-brand .logo-text {
-    margin-left: 10px; /* Space between logo and text */
-    color: #007bff; /* Sets the text color to blue */
-    font-weight: bold; /* Makes the text bold */
-}
 
 .navbar-brand img {
-    max-height: 50px; /* Adjust this value to fit your design */
+    max-height: 50px; 
+    margin-right:10px;
     max-width: 100%; /* Ensures the image does not exceed the width of its container */
     height: auto; /* Maintains the aspect ratio of the image */
-    width: auto; /*  the width scales correctly */
+    width: auto; /* Ensures the width scales correctly */
+    border-radius: 50%; /* Makes the image round */
 }
 
 
-.navbar ul {
-    list-style: none;
-    padding: 0;
+
+.nav-item {
+    padding: 0 0.75rem; /* Horizontal padding for nav items */
+}
+
+.header {
+    margin-top: 20px;
+}
+.card-link {
+    display: block;
+    padding: 20px;
+    text-align: center;
+}
+.card {
     margin: 0;
+    height: 70%;
+}
+.card-body {
+    padding: 0;
+}
+.card:hover{
+    transform: scale(1.05); /* Slightly scale up the card on hover */
+}
+.header .row {
     display: flex;
+    flex-wrap: nowrap;
+}
+.header .col-md {
+    flex: 1;
+    padding: 0;
 }
 
-.navbar ul li {
-    padding: 0 15px;
-}
 
-.navbar ul li a {
-    text-decoration: none;
-    color: #555; /* Darker text for better readability */
-    font-size: 1em;
-    transition: color 0.3s ease;
-}
-
-.navbar ul li a:hover,
-.navbar ul li a:focus {
-    color: white; 
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .navbar ul {
-        flex-direction: column;
-        align-items: center;
-    }
-    .navbar ul li {
-        padding: 10px 0;
-    }
-}
-
-.logo-container img {
-    height: 30px;
-    margin-right: 10px;
+.universityContainer{
+    background-color: white;
+    margin-top: 2rem;
 }

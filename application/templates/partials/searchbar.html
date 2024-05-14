@@ -1,0 +1,28 @@
+<!-- searchbar.html -->
+<div class="search-container">
+    <form action="/search" method="post" class="search-bar">
+        <input type="text" name="searchTerm" id="search-input" placeholder="Search...">
+        <select name="searchFilter" class="search-select">
+            <option value="University">University</option>
+            <option value="Sports">Sports</option>
+            <option value="State">State</option>
+        </select>
+        <button type="submit" class="search-button">Search</button>
+    </form>
+</div>
+
+<!-- JavaScript for filter options -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var filterOptions = document.querySelectorAll('.search-select option');
+        var searchInput = document.getElementById('search-input');
+
+        filterOptions.forEach(function (option) {
+            option.addEventListener('click', function (event) {
+                event.preventDefault();
+                var placeholderText = "Searching " + this.value + "...";
+                searchInput.setAttribute('placeholder', placeholderText);
+            });
+        });
+    });
+</script>
