@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .chat-form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    #messages {
+        height: 300px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    #message-input {
+        width: 80%;
+        padding: 5px;
+    }
+    #send-button {
+        width: 18%;
+        padding: 5px;
+    }
+    .back-button {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        text-decoration: none;
+        color: #333;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-form-container">
+    <div class="chat-container" data-chatroom-id="{{ chatroom_id }}" data-sender-id="{{ session['user_id'] }}" data-username="{{ session['firstname'] }}">
+        <a href="{{ url_for('inbox.inbox') }}" class="back-button">&lt; Back to Inbox</a>
+        <h2>Chat with {{ chat_partner_name }}</h2>
+        <div id="messages">
+            {% for message in messages %}
+            <div>
+                <strong>{{ message.sender_name }}:</strong> {{ message.content }}<br>
+            </div>
+            {% endfor %}
+        </div>
+        <input type="text" id="message-input" placeholder="Enter your message...">
+        <button id="send-button">Send</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+<script>
+    var socket = io();
+    var chatContainer = document.querySelector('.chat-container');
+    var chatRoomId = parseInt(chatContainer.dataset.chatroomId);
+    var senderId = parseInt(chatContainer.dataset.senderId);
+    var username = chatContainer.dataset.username;
+    var room = 'chatroom_' + chatRoomId;
+
+    socket.emit('join', { username: username, room: room });
+
+    document.querySelector('#send-button').onclick = function() {
+        var messageInput = document.querySelector('#message-input');
+        var message = messageInput.value;
+        if (message.trim() !== "") {
+            socket.emit('message', {
+                sender_id: senderId,
+                chatroom_id: chatRoomId,
+                content: message,
+                sender_name: username,
+                room: room
+            });
+            messageInput.value = '';
+        }
+    };
+
+    socket.on('message', function(data) {
+        var messagesDiv = document.querySelector('#messages');
+        var messageElement = document.createElement('div');
+        messageElement.innerHTML = `<strong>${data.sender_name}:</strong> ${data.content}<br>`;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    socket.on('status', function(data) {
+        console.log(data.msg);
+    });
+
+    window.onbeforeunload = function() {
+        socket.emit('leave', { username: username, room: room });
+    };
+</script>
+{% endblock %}
