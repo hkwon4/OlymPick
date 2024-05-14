@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}{{ uni_name }}{% endblock %}
+{% block title %}{{ uni_name }} {% endblock %}
+
 
 {% block extra_css %}
 <style>
@@ -30,7 +31,6 @@
         background-color: #f5f5f5;
         border-radius: 5px;
     }
-
     .dropdown {
         position: relative;
         display: inline-block;
@@ -50,27 +50,6 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-    }
-
-    th, td {
-        border: 1px solid #ccc;
-        text-align: left;
-        padding: 8px;
-    }
-
-    th {
-        background-color: #333;
-        color: white;
-    }
-
-    tr {
-        background-color: white;
-    }
 </style>
 {% endblock %}
 
@@ -79,15 +58,18 @@
 <div class="container universityContainer">
     <div class="content">
         <h1 class="text-center">{{ uni_name }}</h1>
+        {% if session['is_admin'] %}
 
         <div class="dropdown">
             <div class="circle" style="background-image: url('data:image/jpeg;base64,{{ profile_picture }}')" onclick="toggleDropdown()"></div>
             <div class="dropdown-content">
-                <a href="{{ url_for('universityPage.university_profile', uni_name=uni_name) }}">My Profile</a>
+                <a href="{{ url_for('universityPage.university_profile',  uni_name=uni_name) }}">My Profile</a>
                 <a href="{{ url_for('inbox.inbox', university_id=university_id, uni_name=uni_name) }}">Inbox</a>
                 <a href="{{ url_for('landing.landing') }}">Log out</a>
             </div>
         </div>
+        {% endif %}
+
 
         {% include 'partials/universityHeader.html' %}
 
@@ -102,26 +84,36 @@
                 <td>{{ faculty[2] }}</td>
             </tr>
             {% endfor %}
-        </table>
+        </table> 
 
-        <button onclick="toggleEditSection()">Edit</button>
+{% if session['is_admin'] %}
+<button onclick="toggleEditSection()">Edit</button>
+{% endif %}
+    
+    <div id="edit-section" style="display: none;">
+        <h1>Faculty Registration</h1>
+    <form action="" method="POST">
+        
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <label for="firstName">First Name:</label><br>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+        
+        <label for="lastName">Last Name:</label><br>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+        
+       
+        
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+   
 
-        <div id="edit-section" style="display: none;">
-            <h1>Faculty Registration</h1>
-            <form action="" method="post">
-                <label for="faculty_id">Faculty Id:</label>
-                <input type="text" id="faculty_id" name="faculty_id" required>
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" required>
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Add Faculty</button>
-            </form>
-        </div>
+
     </div>
 </div>
 <script>
