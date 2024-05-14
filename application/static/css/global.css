@@ -259,3 +259,36 @@ body {
     padding: 0 0.75rem; /* Horizontal padding for nav items */
 }
 
+.header {
+    margin-top: 20px;
+}
+.card-link {
+    display: block;
+    padding: 20px;
+    text-align: center;
+}
+.card {
+    margin: 0;
+    height: 70%;
+}
+.card-body {
+    padding: 0;
+}
+.card:hover{
+    transform: scale(1.05); /* Slightly scale up the card on hover */
+}
+.header .row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.header .col-md {
+    flex: 1;
+    padding: 0;
+}
+
+/*
+.universityContainer{
+    background-color: #8d6bec;
+    color:white;
+}
+*/

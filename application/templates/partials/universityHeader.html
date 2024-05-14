@@ -1,9 +1,41 @@
 <div class="header">
-    <ul class="navigation">
-        <a href="{{ url_for('universityPage.home', uni_name=uni_name) }}">HOME</a>
-        <a href="{{ url_for('universityPage.sports', uni_name=uni_name) }}" style="font-weight: bold;">Sports</a>
-        <a href="{{ url_for('universityPage.athletes', uni_name=uni_name) }}">Athletes</a>
-        <a href="{{ url_for('universityPage.faculty', uni_name=uni_name) }}">Faculty</a>
-        <a href="{{ url_for('universityPage.contact', uni_name=uni_name) }}">Contact Us</a>
-    </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{ url_for('universityPage.home', uni_name=uni_name) }}" class="card-link">Home</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card bg-primary">
+                    <div class="card-body">
+                        <a href="{{ url_for('universityPage.sports', uni_name=uni_name) }}" class="card-link text-white">Sports</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card bg-primary">
+                    <div class="card-body">
+                        <a href="{{ url_for('universityPage.athletes', uni_name=uni_name) }}" class="card-link text-white">Athletes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card bg-primary">
+                    <div class="card-body">
+                        <a href="{{ url_for('universityPage.faculty', uni_name=uni_name) }}" class="card-link text-white">Faculty</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card bg-primary">
+                    <div class="card-body">
+                        <a href="{{ url_for('universityPage.contact', uni_name=uni_name) }}" class="card-link text-white">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
