@@ -188,7 +188,7 @@ def contact():
         address, city, state, zipcode, email, phone_number = result
         formatted_address = f"{address}, {city}, {state} {zipcode}"
         API_KEY = 'AIzaSyByc-Nkq0OG7uysLeAzABMVjnPQpOeU1IU'
-        return render_template('universityHome.html', uni_name=uni_name, address=formatted_address, api_key=API_KEY, email=email, phone=phone_number)
+        return render_template('universityContact.html', uni_name=uni_name, address=formatted_address, api_key=API_KEY, email=email, phone=phone_number)
     else:
         return "University not found"
     
