@@ -7,7 +7,29 @@
     width: 80%; 
     margin: 0 auto; 
 }
+.search-arrow {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    position: relative;
+    font-weight: bold;
+}
 
+.search-arrow::before {
+    content: '\2190'; 
+    margin-right: 5px;
+    font-size: 20px; 
+    font-weight: bold; 
+}
+.user-full-name {
+    font-size: 1.9rem;
+    font-weight: bold;
+    color: #f9f4f4; 
+    background-color: #7ab3f1; 
+    padding: 10px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+}
 
 .profile-title {
     margin-top: 20px;
@@ -29,18 +51,19 @@
     background-color: #ccc;
     background-size: cover;
     background-position: center;
+    position: relative;
 }
 
 
 .upload-button {
     position: absolute;
-    bottom: 5px; 
-    right: 5px; 
-    padding: 5px;
-    background-color: rgba(0, 0, 0, 0.5); 
+    bottom: 0; 
+    right: 0; 
+    padding: 10px;
+    background-color: rgba(240, 176, 176, 0.5); 
     color: #fff;
     border: none;
-    border-radius: 50%;
+    border-radius: 60%;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -64,7 +87,7 @@
 .field-label {
     font-weight: bold;
     margin-right: 10px;
-    width: 100px; 
+    width: 500px; 
 }
 
 
@@ -72,7 +95,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px;
-    width: 200px; 
+    width: 500px; 
     background-color: #f2f2f2; 
     pointer-events: none; 
 }
@@ -97,4 +120,17 @@
     border-radius: 5px;
     padding: 20px; 
     width: 300px; 
+}
+
+.save-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
 }
