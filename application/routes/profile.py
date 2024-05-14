@@ -64,14 +64,11 @@ def uploadprofile(user_id, full_name):
 
         about_me = request.form.get('aboutMe')
         if about_me:
-            # Check if the user already has an existing about me record
             cursor = mysql.connection.cursor()
-            cursor.execute("SELECT aboutMe FROM UserProfile WHERE user_id = %s", [user_id])
-            existing_about_me_result = cursor.fetchone()
-            if existing_about_me_result:
+            cursor.execute("SELECT COUNT(*) FROM UserProfile WHERE user_id = %s", [user_id])
+            existing_about_me_count = cursor.fetchone()[0]
+            if existing_about_me_count > 0:
                 # If the user already has an about me record, update it with the new content
-                existing_about_me = existing_about_me_result[0]
-                about_me = existing_about_me + "\n" + about_me  # Append new about me to the existing one
                 cursor.execute("UPDATE UserProfile SET aboutMe = %s WHERE user_id = %s", (about_me, user_id))
             else:
                 # If the user does not have an existing about me record, insert a new one
@@ -79,30 +76,20 @@ def uploadprofile(user_id, full_name):
             mysql.connection.commit()
             cursor.close()
 
-        
-
-#'UserLinks - link_id, user_id, link_type, link_url'
-
-        # Handle user links
         userlink = request.form.get('link_url')
         if userlink:
-            
-        # Check if the user already has existing links
             cursor = mysql.connection.cursor()
-            cursor.execute("SELECT link_url FROM UserLinks WHERE user_id = %s", [user_id])
-            existing_links_result = cursor.fetchone()
-            if existing_links_result:
-            # If the user already has links, update them with the new content
-                existing_links = existing_links_result[0]
-                userlink = existing_links + "\n" + userlink  # Append new links to the existing ones
+            cursor.execute("SELECT COUNT(*) FROM UserLinks WHERE user_id = %s", [user_id])
+            existing_links_count = cursor.fetchone()[0]
+            if existing_links_count > 0:
+                # If the user already has links, update them with the new content
                 cursor.execute("UPDATE UserLinks SET link_url = %s WHERE user_id = %s", (userlink, user_id))
             else:
-            # If the user does not have existing links, insert new ones
+                # If the user does not have existing links, insert new ones
                 cursor.execute("INSERT INTO UserLinks (user_id, link_url) VALUES (%s, %s)", (user_id, userlink))
             mysql.connection.commit()
             cursor.close()
-            
-        flash('Profile updated successfully.')
+
         return redirect(url_for('profile.profile', user_id=user_id, full_name=full_name))
 
 
@@ -152,6 +139,7 @@ def uniuploadprofile(university_id, uni_name):
         # Update database with combined data
         cursor.execute("UPDATE UniversityProfile SET programs = %s, contactInfo = %s, coachingStaff = %s, facilities = %s WHERE uni_id = %s", 
                        (combined_programs, combined_contact_info, combined_coaching_staff, combined_facilities, university_id))
+        
     else:
         # Insert new record into the database
         cursor.execute("INSERT INTO UniversityProfile (uni_id, programs, contactInfo, coachingStaff, facilities) VALUES (%s, %s, %s, %s, %s)", 
@@ -160,11 +148,9 @@ def uniuploadprofile(university_id, uni_name):
     # Commit changes to the database
     mysql.connection.commit()
     cursor.close()
-    
-    flash('Profile updated successfully.')
-    
+        
     # Redirect to uniprofile route without passing additional parameters
-    return redirect(url_for('profile.uniprofile', university_id=university_id, uni_name=uni_name))
+    return render_template('universityHome.html',university_id= university_id, uni_name=uni_name)
 
 @profile_bp.route('/loggedlanding/<int:university_id>/<string:uni_name>', methods=["GET"])
 def uniloggedlanding(university_id, uni_name):
